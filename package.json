@@ -1,0 +1,32 @@
+{
+  "name": "riotjs-storyleaves",
+  "version": "1.0.0",
+  "description": "Implementing the storyleaves game http://www.gamedevblog.com/storyleaves.html using Riot JS framework http://riotjs.com/",
+  "main": "index.js",
+  "scripts": {
+    "test": "karma start"
+  },
+  "keywords": [
+    "storyleaves",
+    "game",
+    "tdd",
+    "riot",
+    "karma",
+    "mocha",
+    "chai"
+  ],
+  "author": "vitogit",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "karma": "^0.13.21",
+    "karma-chai": "^0.1.0",
+    "karma-mocha": "^0.2.2",
+    "karma-mocha-reporter": "^1.2.1",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "karma-riot": "^1.0.1",
+    "mocha": "^2.4.5",
+    "phantomjs-prebuilt": "^2.1.4",
+    "riot": "^2.3.15"
+  }  
+}
