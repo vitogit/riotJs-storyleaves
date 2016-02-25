@@ -1,13 +1,14 @@
 module.exports = function(config) {
   config.set({
     basePath: '',
-    frameworks: ['mocha','chai','riot'],
+    frameworks: ['mocha','chai','riot','jquery-1.9.1'],
     plugins: [
       'karma-mocha',
       'karma-mocha-reporter',
       'karma-phantomjs-launcher',
       'karma-chai',
-      'karma-riot'
+      'karma-riot',
+      'karma-jquery'
     ],
     files: [
       'node_modules/chai/chai',

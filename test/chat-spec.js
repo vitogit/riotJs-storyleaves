@@ -1,6 +1,6 @@
 describe('Chat spec', function() {
 
-  before(function() {
+  beforeEach(function() {
     var html = document.createElement('chat')
     document.body.appendChild(html)
     tag = riot.mount('chat')[0]
@@ -17,23 +17,42 @@ describe('Chat spec', function() {
   }) 
   
   it('has an input ', function() {  
-    expect(tag.input).to.exist
+    expect(tag.inputMessage).to.exist
   }) 
   
   it('adds a new message from the input', function() { 
-    tag.input = 'mes'
-    tag.add() 
+    $('input').val('mes1')
+    $('input').keyup()
+    $('form').submit()
+    tag.update()
     expect(tag.messages).to.have.length(1)
   })     
   // 
-  // it('mounts a hello tag with a setted name', function() {  
-  //   tag = riot.mount('hello', {name: 'Carl'})[0]
-  //   expect(tag.name).to.be.eq('Carl')
-  // })
-  // 
-  // it('prints <h1>Hello {name}</h1>', function() {  
-  //   tag = riot.mount('hello', {name: 'Carl'})[0]
-  //   var tagText = document.querySelector('hello > h1').textContent
-  //   expect(tagText).to.be.eq('Hello Carl') 
-  // })       
+  // it('add the message to a li tag', function() {  
+  //   tag.input.value = 'mes1' //same as document.querySelector('input').value
+  //   $('form').submit() //using jquery to send the form
+  //   var tagText = document.querySelector('.message').textContent
+  //   expect(tagText).to.contain('mes1') 
+  // }) 
+  
+  // it('empty inputMessage after adding', function() {  
+  //   tag.inputMessage = 'mes1' 
+  //   tag.add()     
+  //   tag.update() //update the DOM
+  //   var tagText = document.querySelector('input').value
+  //   expect(tagText).to.be.empty 
+  // })    
+  
+  it('set the input property from the input tag', function() {  
+    var inputSelector = document.querySelector('input')
+    inputSelector.value = 'mes1'
+    $(inputSelector).keyup() //using jquery to trigger the keyup event
+    expect(tag.inputMessage).to.be.eq('mes1')
+    //var tagText = document.querySelector('.message').textContent
+    //expect(tagText).to.contain('mes1') 
+  }) 
+  
+  afterEach(function() {
+    tag.unmount()
+  });          
 })

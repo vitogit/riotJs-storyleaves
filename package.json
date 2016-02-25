@@ -4,7 +4,9 @@
   "description": "Implementing the storyleaves game http://www.gamedevblog.com/storyleaves.html using Riot JS framework http://riotjs.com/",
   "main": "index.js",
   "scripts": {
-    "test": "karma start"
+    "test": "karma start",
+    "browsersync": "browser-sync start --server --files 'src/*' --startPath src",
+    "start": "npm run browsersync"
   },
   "keywords": [
     "storyleaves",
@@ -18,9 +20,12 @@
   "author": "vitogit",
   "license": "ISC",
   "devDependencies": {
+    "browser-sync": "^2.11.1",
     "chai": "^3.5.0",
+    "jquery": "^2.2.1",
     "karma": "^0.13.21",
     "karma-chai": "^0.1.0",
+    "karma-jquery": "^0.1.0",
     "karma-mocha": "^0.2.2",
     "karma-mocha-reporter": "^1.2.1",
     "karma-phantomjs-launcher": "^1.0.0",
@@ -28,5 +33,5 @@
     "mocha": "^2.4.5",
     "phantomjs-prebuilt": "^2.1.4",
     "riot": "^2.3.15"
-  }  
+  }
 }
