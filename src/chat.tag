@@ -6,26 +6,18 @@
     </li>
   </ul>
   <form onsubmit={add}>
-    <input name="input" onkeyup={edit}>
+    <input name="input" >
   </form>
     
   <script>
-    this.inputMessage = ''
     this.messages = []
     
     this.add = function(e) {
-      console.debug(e)
-      e.preventDefault()
-      if (this.inputMessage != '') {
-        this.messages.push(this.inputMessage)
+      if (this.input.value != '') {
+        this.messages.push(this.input.value)
         this.input.value = ''
-        this.inputMessage = ''
       }
+      return false
     }
-    
-    this.edit = function(e) {
-      this.inputMessage = e.currentTarget.value
-  
-    }    
   </script>
 </chat>
