@@ -1,8 +1,8 @@
 <chat>
   <h1>Chat</h1>
   <ul>
-    <li class="message" each={message in messages}>
-      {message}
+    <li class="message { this.user == 'master' ? 'master' : '' }" each={message in messages}>
+      {message.text}
     </li>
   </ul>
   <form onsubmit={add}>
@@ -10,14 +10,24 @@
   </form>
     
   <script>
-    this.messages = []
+    this.messages = opts.messages || []
+    this.actions = opts.actions || []
+    this.user = opts.user || 'default'
     
     this.add = function(e) {
       if (this.input.value != '') {
-        this.messages.push(this.input.value)
+        this.messages.push({text:this.input.value, user: this.user})
         this.input.value = ''
       }
       return false
     }
   </script>
+  
+  <style>
+    chat { }
+    chat li { }
+    chat li .master {
+      background-color: red
+    }
+  </style>  
 </chat>
