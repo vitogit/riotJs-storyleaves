@@ -1,7 +1,7 @@
 <chat>
   <h1>Chat</h1>
   <ul>
-    <li class="message { this.user == 'master' ? 'master' : '' }" each={message in messages}>
+    <li class="message { message.user == 'master' ? 'master' : '' }" each={message in messages}>
       {message.text}
     </li>
   </ul>
@@ -16,10 +16,14 @@
     
     this.add = function(e) {
       if (this.input.value != '') {
-        this.messages.push({text:this.input.value, user: this.user})
+        this.addGeneric(this.input.value, this.user)
         this.input.value = ''
       }
       return false
+    }
+    
+    this.addGeneric = function(text, user) {
+      this.messages.push({text:text, user: user})
     }
   </script>
   

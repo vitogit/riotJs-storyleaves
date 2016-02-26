@@ -60,17 +60,13 @@ describe('Chat spec', function() {
     }) 
     
     it('set the master class when a master user send message', function() {  
-      tag.input.value = message 
-      tag.user = 'master'
-      tag.add()     
+      tag.addGeneric(message, 'master')     
       tag.update()
       var classNames = document.querySelector('.master').textContent
       expect(classNames).to.be.contains('mes1')
     })         
   })
-  
 
-  
   context('Passing parameters to mount', function() {
     beforeEach(function() {
       var html = document.createElement('chat')
@@ -90,9 +86,7 @@ describe('Chat spec', function() {
     })  
            
   })
-  
- 
-  
+
   afterEach(function() {
     tag.unmount()
   });          
