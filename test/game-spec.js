@@ -27,24 +27,31 @@ describe('Game spec', function() {
     })
 
     it('adds 2 cards to game area', function() {
-      // cards = [{number:1, text:'card1'},
-      //         {number:2, text:'card2'}
-      // ]
-      // tag.loadArea('game', cards)
-      // expect(tag.areas.game).to.have.lengthOf(2)
+      cards = [{number:1, text:'card1'},
+              {number:2, text:'card2'}
+      ]
+      tag.loadArea('game', cards)
+      expect(tag.areas.game.cards).to.have.lengthOf(2)
+    })
+
+    it('remove 2 cards to game area', function() {
+      cards = [{number:1, text:'card1'},
+              {number:2, text:'card2'}
+      ]
+      tag.loadArea('game', cards)
+      tag.unloadArea('game', cards)
+      expect(tag.areas.game.cards).to.have.lengthOf(0)
     })
 
     it('moves 2 cards from game area to hand area', function() {
-      // cards = [{number:1, text:'card1'},
-      //         {number:2, text:'card2'}
-      // ]
-      // tag.loadArea('game', cards)
-      // tag.moveCardsFromTo('game','hand', cards)
-      // expect(tag.areas.game).to.have.lengthOf(0)
-      // expect(tag.areas.hand).to.have.lengthOf(2)
-
+      cards = [{number:1, text:'card1'},
+              {number:2, text:'card2'}
+      ]
+      tag.loadArea('game', cards)
+      tag.moveCardsFromTo('game','hand', cards)
+      expect(tag.areas.game.cards).to.have.lengthOf(0)
+      expect(tag.areas.hand.cards).to.have.lengthOf(2)
     })
-
   })
 
   afterEach(function() {
