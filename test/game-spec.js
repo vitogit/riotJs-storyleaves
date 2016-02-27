@@ -26,6 +26,7 @@ describe('Game spec', function() {
       }
     })
 
+
     it('adds 2 cards to game area', function() {
       cards = [{number:1, text:'card1'},
               {number:2, text:'card2'}
@@ -51,6 +52,60 @@ describe('Game spec', function() {
       tag.moveCardsFromTo('game','hand', cards)
       expect(tag.areas.game.cards).to.have.lengthOf(0)
       expect(tag.areas.hand.cards).to.have.lengthOf(2)
+    })
+
+    it('has phases', function() {
+      expect(tag.phases).to.exist;
+      expect(tag.phases).to.be.an('array');
+    })
+
+    it('has 5 phases', function() {
+      expect(tag.phases).to.have.lengthOf(5);
+    })
+
+    it('has a current phase', function() {
+      expect(tag.currentPhase).to.exist;
+    })
+
+    it('moves to the next phase', function() {
+      tag.nextPhase()
+      expect(tag.currentPhase).to.be.eq(1);
+    })
+
+    it('moves to phase 0 after nextPhase() the lastone', function() {
+      tag.currentPhase = tag.phases.length
+      tag.nextPhase()
+      expect(tag.currentPhase).to.be.eq(0);
+    })
+  })
+
+  context('Mount with params', function() {
+    beforeEach(function() {
+      var html = document.createElement('game')
+      document.body.appendChild(html)
+    });
+  })
+
+  context('Mechanics', function() {
+    beforeEach(function() {
+      var html = document.createElement('game')
+      document.body.appendChild(html)
+      tag = riot.mount('game')[0]
+    });
+
+    context('Phase 0', function() {
+      before(function() {
+        tag.currentPhase = 0
+      });
+            
+      it('has 40 cards in the main place ', function() {
+        expect(tag.areas.main.cards).to.have.lengthOf(40)
+      })
+
+      it('has 1 action: Get 5 cards ', function() {
+        expect(tag.tags.chat.actions).to.have.lengthOf(1)
+        expect(tag.tags.chat.actions[0].name).to.be.eq('initGame')
+      })
     })
   })
 

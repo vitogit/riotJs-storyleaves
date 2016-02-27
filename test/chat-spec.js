@@ -47,30 +47,6 @@ describe('Chat spec', function() {
       expect(tag.actions).to.be.an('array');
     })
 
-    it('has phases', function() {
-      expect(tag.phases).to.exist;
-      expect(tag.phases).to.be.an('array');
-    })
-
-    it('has 5 phases', function() {
-      expect(tag.phases).to.have.lengthOf(5);
-    })
-
-    it('has a current phase', function() {
-      expect(tag.currentPhase).to.exist;
-    })
-
-    it('moves to the next phase', function() {
-      tag.nextPhase()
-      expect(tag.currentPhase).to.be.eq(1);
-    })
-
-    it('moves to phase 0 after nextPhase() the lastone', function() {
-      tag.currentPhase = tag.phases.length
-      tag.nextPhase()
-      expect(tag.currentPhase).to.be.eq(0);
-    })
-
     it('exist an user', function() {
       expect(tag.user).to.exist
     })

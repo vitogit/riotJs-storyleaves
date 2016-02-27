@@ -11,15 +11,11 @@
 
   <script>
     this.messages = opts.messages || []
-    this.actions = opts.actions || []
-    this.user = opts.user || 'default'
-    this.phases = [ {number:0, description:'Initial phase'},
-                    {number:1, description:'first phase'},
-                    {number:2, description:'second phase'},
-                    {number:3, description:'third phase'},
-                    {number:4, description:'fourth phase'}
+    this.actions = opts.actions || [{name:'initGame', label:'Sacar 5 cartas'}
+
     ]
-    this.currentPhase = 0
+    this.user = opts.user || 'default'
+
 
     this.add = function(e) {
       if (this.input.value != '') {
@@ -33,12 +29,6 @@
       this.messages.push({text:text, user: user})
     }
 
-    this.nextPhase = function(text, user) {
-      this.currentPhase++
-      if (this.currentPhase > this.phases.length) {
-        this.currentPhase = 0
-      }  
-    }
   </script>
 
   <style>
