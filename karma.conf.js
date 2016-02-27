@@ -13,6 +13,7 @@ module.exports = function(config) {
     files: [
       'node_modules/chai/chai',
       'src/**/*.tag',
+      'src/**/*.js',
       'test/**/*.js'
     ],
     preprocessors: {
@@ -20,7 +21,12 @@ module.exports = function(config) {
     },
     browsers: ['PhantomJS'],
     reporters: ['mocha'],
+    client: {
+      mocha: {
+        ui: 'bdd'
+      }
+    },
     failOnEmptyTestSuite: false,
-    autoWatch: true  
+    autoWatch: true
   })
 }
