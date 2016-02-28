@@ -26,9 +26,11 @@ Deck.prototype.topCards = function topCards(numberOfCards) {
 
 Deck.prototype.load = function load(cards) {
   this.cards = this.cards.concat(cards)
+  console.log
 }
 
 Deck.prototype.unload = function unload(cards) {
+  cards = [].concat(cards) //to accept single card or card arrays
   for(var i=0, len=cards.length; i < len; i++) {
     var card = cards[i]
     this.cards = this.cards.filter(function (el) {

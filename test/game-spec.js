@@ -44,6 +44,7 @@ describe('Game spec', function() {
               {number:2, text:'card2'}
       ]
       tag.loadArea('game', cards)
+      expect(tag.areas.game.cards).to.have.lengthOf(2)
       tag.unloadArea('game', cards)
       expect(tag.areas.game.cards).to.have.lengthOf(0)
     })
@@ -58,14 +59,15 @@ describe('Game spec', function() {
       expect(tag.areas.hand.cards).to.have.lengthOf(2)
     })
 
-
-    it('moves a specific card from temp to resource ', function() {
+    
+    it('moves a specific card from temp area to resource ', function() {
       var cards = [{number:1, text:'card1'},
               {number:2, text:'card2'}
       ]
       tag.loadArea('temp', cards)
       tag.moveFromAreaToResource('temp','pj',cards[0])
       expect(tag.resources.pj.card.number).to.be.eq(1)
+      expect(tag.areas.temp.cards).to.have.lengthOf(1)
     })
 
     it('has phases', function() {

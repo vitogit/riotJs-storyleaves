@@ -29,6 +29,20 @@ describe('Deck spec', function() {
       expect(card2).to.be.eq('{"number":2,"text":"card2"}')
     })
 
+    it('load a single card to the deck', function() {
+      card = {number:1, text:'card1'}
+      deck.load(card)
+      expect(deck.cards).to.have.lengthOf(1)
+    })
+
+    it('unload a single card from the deck', function() {
+      card = {number:1, text:'card1'}
+      deck.load(card)
+      expect(deck.cards).to.have.lengthOf(1)
+      deck.unload(card)
+      expect(deck.cards).to.have.lengthOf(0)
+    })
+
     it('load 2 new cards to the deck', function() {
       cards = [{number:1, text:'card1'},
               {number:2, text:'card2'}
@@ -76,7 +90,7 @@ describe('Deck spec', function() {
       expect(deck.cards[0].number).to.be.eq(1)
       expect(deck.cards[1].number).to.be.eq(2)
       expect(deck.cards[0].text).to.be.eq(cardArray[0])
-      expect(deck.cards[1].text).to.be.eq(cardArray[1])      
+      expect(deck.cards[1].text).to.be.eq(cardArray[1])
     })
   })
 
