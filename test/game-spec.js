@@ -12,10 +12,10 @@ describe('Game spec', function() {
       expect(tag.isMounted).to.be.true
     })
 
-    it('has 4 areas', function() {
+    it('has 5 areas', function() {
       expect(tag.areas).to.exist
       expect(tag.areas).to.be.an('object')
-      expect(Object.keys(tag.areas)).to.have.lengthOf(4)
+      expect(Object.keys(tag.areas)).to.have.lengthOf(5)
     })
 
     it('has areas with decks', function() {
@@ -26,6 +26,10 @@ describe('Game spec', function() {
       }
     })
 
+    it('has resources', function() {
+      expect(tag.resources).to.exist;
+      expect(tag.resources).to.be.an('object');
+    })
 
     it('adds 2 cards to game area', function() {
       cards = [{number:1, text:'card1'},
@@ -45,13 +49,23 @@ describe('Game spec', function() {
     })
 
     it('moves 2 cards from game area to hand area', function() {
-      cards = [{number:1, text:'card1'},
+      var cards = [{number:1, text:'card1'},
               {number:2, text:'card2'}
       ]
       tag.loadArea('game', cards)
       tag.moveCardsFromTo('game','hand', cards)
       expect(tag.areas.game.cards).to.have.lengthOf(0)
       expect(tag.areas.hand.cards).to.have.lengthOf(2)
+    })
+
+
+    it('moves a specific card from temp to resource ', function() {
+      var cards = [{number:1, text:'card1'},
+              {number:2, text:'card2'}
+      ]
+      tag.loadArea('temp', cards)
+      tag.moveFromAreaToResource('temp','pj',cards[0])
+      expect(tag.resources.pj.card.number).to.be.eq(1)
     })
 
     it('has phases', function() {
@@ -110,18 +124,20 @@ describe('Game spec', function() {
         expect(tag.areas.main.cards).to.have.lengthOf(40)
       })
 
-      it('execute initGame: moving 5 cards from main place to hand', function() {
-        var actionName = 'initGame'
+      it('execute initGame: moving 5 cards from main place to temp', function() {
         var mainDeckLength = tag.areas.main.cards.length
-        tag.doAction(actionName)
+        tag.doAction('initGame')
         expect(tag.areas.main.cards).to.have.lengthOf(mainDeckLength-5)
-        expect(tag.areas.hand.cards).to.have.lengthOf(5)
+        expect(tag.areas.temp.cards).to.have.lengthOf(5)
       })
-      //
-      // it('choose a first character ', function() {
-      //
-      // })
-      //
+
+      it('choose a first character ', function() {
+        var card =
+        tag.doAction('choosePj')
+      //  expect(tag.resources.pj).to.exist.lengthOf(5)
+      })
+
+
       // it('choose an allied character ', function() {
       //
       // })
