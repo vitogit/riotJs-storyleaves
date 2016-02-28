@@ -5,26 +5,20 @@
   <script>
 
     this.areas = {'main':new Deck(), 'game':new Deck(), 'hand':new Deck(), 'discard':new Deck()}
-    this.areas.main.cards = defaultDeck
+    this.areas.main = new Deck(defaultDeck) //set default deck to the main place
 
     this.loadArea = function(area, cards) {
       this.areas[area].load(cards)
-      console.log(this.areas[area].cards.length)
     }
 
     this.unloadArea = function(area, cards) {
-      console.log('area____'+area)
-      console.log('cards____'+cards)
       this.areas[area].unload(cards)
-      console.log(this.areas[area].cards.length)
-
     }
 
     this.moveCardsFromTo = function(from, to, cards) {
       this.unloadArea(from, cards)
       this.loadArea(to, cards)
     }
-
 
     this.phases = [ {number:0, description:'Initial phase'},
                     {number:1, description:'first phase'},
@@ -47,7 +41,6 @@
          var mainDeck = this.areas.main
          //mainDeck.shuffle()
          var cards = mainDeck.topCards(5)
-         console.log(cards)
          this.moveCardsFromTo('main', 'hand', cards)
          break
         case 'initGame2':

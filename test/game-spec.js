@@ -110,16 +110,12 @@ describe('Game spec', function() {
         expect(tag.areas.main.cards).to.have.lengthOf(40)
       })
 
-      // it('has 1 action: initGame ', function() {
-      //   var actionNames = Object.keys(tag.tags.actionbox.actions)
-      //   expect(actionNames).to.include('initGame')
-      // })
-
       it('execute initGame: moving 5 cards from main place to hand', function() {
         var actionName = 'initGame'
+        var mainDeckLength = tag.areas.main.cards.length
         tag.doAction(actionName)
-        //expect(tag.areas.main.cards).to.have.lengthOf(tag.areas.main.cards.length-5)
-
+        expect(tag.areas.main.cards).to.have.lengthOf(mainDeckLength-5)
+        expect(tag.areas.hand.cards).to.have.lengthOf(5)
       })
       //
       // it('choose a first character ', function() {
