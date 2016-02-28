@@ -11,11 +11,8 @@
 
   <script>
     this.messages = opts.messages || []
-    this.actions = opts.actions || [{name:'initGame', label:'Sacar 5 cartas'}
 
-    ]
     this.user = opts.user || 'default'
-
 
     this.add = function(e) {
       if (this.input.value != '') {

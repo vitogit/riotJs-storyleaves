@@ -97,19 +97,46 @@ describe('Game spec', function() {
       before(function() {
         tag.currentPhase = 0
       });
-            
+
+      it('has an actionBox children tag ', function() {
+        expect(tag.tags.actionbox).to.exist
+      })
+
+      it('has a chat children tag ', function() {
+        expect(tag.tags.chat).to.exist
+      })
+
       it('has 40 cards in the main place ', function() {
         expect(tag.areas.main.cards).to.have.lengthOf(40)
       })
 
-      it('has 1 action: Get 5 cards ', function() {
-        expect(tag.tags.chat.actions).to.have.lengthOf(1)
-        expect(tag.tags.chat.actions[0].name).to.be.eq('initGame')
+      // it('has 1 action: initGame ', function() {
+      //   var actionNames = Object.keys(tag.tags.actionbox.actions)
+      //   expect(actionNames).to.include('initGame')
+      // })
+
+      it('execute initGame: moving 5 cards from main place to hand', function() {
+        var actionName = 'initGame'
+        tag.doAction(actionName)
+        //expect(tag.areas.main.cards).to.have.lengthOf(tag.areas.main.cards.length-5)
+
       })
+      //
+      // it('choose a first character ', function() {
+      //
+      // })
+      //
+      // it('choose an allied character ', function() {
+      //
+      // })
+      //
+      // it('choose a enemy character ', function() {
+      //
+      // })
     })
   })
 
   afterEach(function() {
-    tag.unmount()
+    //tag.unmount()
   })
 })

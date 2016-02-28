@@ -3,15 +3,30 @@ describe('Deck spec', function() {
   context('default', function() {
     beforeEach(function() {
       deck = new Deck()
-    });
+    })
 
     it('exist a deck ', function() {
       expect(deck).to.exist
     })
 
-    it('has a cards', function() {
+    it('has cards', function() {
       expect(deck.cards).to.exist
       expect(deck.cards).to.be.an('array')
+    })
+
+    it('get the top 2 cards', function() {
+      var cards = [{number:1, text:'card1'},
+              {number:2, text:'card2'},
+              {number:3, text:'card3'}
+      ]
+      deck.load(cards)
+      var topCards = deck.topCards(2)
+      expect(topCards).to.have.lengthOf(2)
+
+      var card1 = JSON.stringify(topCards[0])
+      var card2 = JSON.stringify(topCards[1])
+      expect(card1).to.be.eq('{"number":1,"text":"card1"}')
+      expect(card2).to.be.eq('{"number":2,"text":"card2"}')
     })
 
     it('load 2 new cards to the deck', function() {
@@ -23,7 +38,7 @@ describe('Deck spec', function() {
     })
 
     it('unload 2 cards from the deck', function() {
-      cards = [{number:1, text:'card1'},
+      var cards = [{number:1, text:'card1'},
               {number:2, text:'card2'}
       ]
       deck.load(cards)
@@ -32,6 +47,37 @@ describe('Deck spec', function() {
       expect(deck.cards).to.have.lengthOf(0)
     })
 
+    // it('shuffle the deck', function() {
+    //   var cards = [{number:1, text:'card1'},
+    //           {number:2, text:'card2'},
+    //           {number:3, text:'card3'}
+    //   ]
+    //   deck.load(cards)
+    //   deck.shuffle()
+    //   var shuffleCards = [{number:3, text:'card3'},
+    //           {number:2, text:'card2'}
+    //           {number:1, text:'card1'}
+    //   ]
+    //   expect(deck.cards).to.be.eql(shuffleCards)
+    // })
+
+  })
+
+  context('with params', function() {
+    it('can receive a card array', function() {
+      var cardArray = ['card1', 'card2']
+      deck = new Deck(cardArray)
+      expect(deck.cards).to.have.lengthOf(2)
+    })
+
+    it('transform an arrayCards to Cards(object)', function() {
+      var cardArray = ['card1', 'card2']
+      deck = new Deck(cardArray)
+      expect(deck.cards[0].number).to.be.eq(1)
+      expect(deck.cards[1].number).to.be.eq(2)
+      expect(deck.cards[0].text).to.be.eq(cardArray[0])
+      expect(deck.cards[1].text).to.be.eq(cardArray[1])      
+    })
   })
 
 })

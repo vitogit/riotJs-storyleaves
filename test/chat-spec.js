@@ -42,11 +42,6 @@ describe('Chat spec', function() {
       expect(tagText).to.be.empty
     })
 
-    it('has actions', function() {
-      expect(tag.actions).to.exist;
-      expect(tag.actions).to.be.an('array');
-    })
-
     it('exist an user', function() {
       expect(tag.user).to.exist
     })
@@ -71,17 +66,11 @@ describe('Chat spec', function() {
       var html = document.createElement('chat')
       document.body.appendChild(html)
       messages = ['mes1', 'mes2']
-      actions = ['ac1', 'ac2']
     });
 
     it('mounts the tag with messages', function() {
       tag = riot.mount('chat', {messages: messages})[0]
       expect(tag.messages).to.be.eq(messages)
-    })
-
-    it('mounts the tag with actions', function() {
-      tag = riot.mount('chat', {actions: actions})[0]
-      expect(tag.actions).to.be.eq(actions)
     })
   })
 
@@ -90,7 +79,6 @@ describe('Chat spec', function() {
       var html = document.createElement('chat')
       document.body.appendChild(html)
       messages = ['mes1', 'mes2']
-      actions = ['ac1', 'ac2']
       tag = riot.mount('chat', {messages: messages})[0]
 
     });
