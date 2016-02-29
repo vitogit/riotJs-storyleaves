@@ -59,7 +59,7 @@ describe('Game spec', function() {
       expect(tag.areas.hand.cards).to.have.lengthOf(2)
     })
 
-    
+
     it('moves a specific card from temp area to resource ', function() {
       var cards = [{number:1, text:'card1'},
               {number:2, text:'card2'}
@@ -131,10 +131,11 @@ describe('Game spec', function() {
         tag.doAction('initGame')
         expect(tag.areas.main.cards).to.have.lengthOf(mainDeckLength-5)
         expect(tag.areas.temp.cards).to.have.lengthOf(5)
+        expect(tag.tags.actionbox.actions[0].name).to.be.eq('choosePj')
       })
 
       it('choose a first character ', function() {
-        var card =
+        //var card =
         tag.doAction('choosePj')
       //  expect(tag.resources.pj).to.exist.lengthOf(5)
       })

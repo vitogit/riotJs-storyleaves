@@ -1,6 +1,6 @@
 <game>
-  <actionBox/>
   <chat/>
+  <actionBox />
 
   <script>
 
@@ -39,6 +39,7 @@
                     {number:3, description:'third phase'},
                     {number:4, description:'fourth phase'}
     ]
+
     this.currentPhase = 0
 
     this.nextPhase = function(text, user) {
@@ -55,6 +56,7 @@
          //mainDeck.shuffle()
          var cards = mainDeck.topCards(5)
          this.moveCardsFromTo('main', 'temp', cards)
+         this.nextActions([{name:'choosePj', label:'Elige el protagonista'}])
          break
         case 'initGame2':
           console.log(' action2')
@@ -63,6 +65,10 @@
         default:
           console.log('default action')
       }
+    }
+
+    this.nextActions = function(actions) {
+      this.tags.actionbox.actions = actions
     }
 
   </script>
