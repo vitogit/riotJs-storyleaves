@@ -23,7 +23,7 @@ describe('ActionBox spec', function() {
       var game = document.createElement('game')
       document.body.appendChild(game)
       var actions = [{name:'initGame', label:'Comenzar juego'}]
-      //tag = riot.mount('actionBox', {actions:actions})[0]
+      tag = riot.mount('actionBox', {actions:actions})[0]
       //tagParent = riot.mount('game')[0]
       //tag.parent = tagParent //mocking the parent
       //PENDING use Sinon.js to mock and spy
@@ -44,7 +44,9 @@ describe('ActionBox spec', function() {
     })
 
     it('exist a onclick event ', function() {
-
+      tag.parent = sinon.stub().returnsThis();
+      tag.parent.doAction = sinon.stub().withArgs('initGame').returns(true);
+      $(".action").click();
     })
 
     it('calls parent to execute an action ', function() {
@@ -54,4 +56,8 @@ describe('ActionBox spec', function() {
     })
 
   })
+  
+  afterEach(function() {
+    tag.unmount()
+  });  
 })
