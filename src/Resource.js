@@ -3,6 +3,6 @@ function Resource() {
     this.card = {}
 }
 
-Deck.prototype.set = function set(card) {
+Resource.prototype.set = function set(card) {
   this.card = card
 }

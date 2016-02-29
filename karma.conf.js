@@ -1,17 +1,18 @@
 module.exports = function(config) {
   config.set({
     basePath: '',
-    frameworks: ['mocha','chai','riot','jquery-1.9.1'],
+    frameworks: ['mocha','sinon-chai','riot','jquery-1.9.1'],
     plugins: [
       'karma-mocha',
       'karma-mocha-reporter',
       'karma-phantomjs-launcher',
       'karma-chai',
       'karma-riot',
+      'karma-sinon-chai',
       'karma-jquery'
     ],
     files: [
-      'node_modules/chai/chai',
+      //'node_modules/chai/chai',
       'src/**/*.tag',
       'src/**/*.js',
       'test/**/*.js'
@@ -24,7 +25,10 @@ module.exports = function(config) {
     client: {
       mocha: {
         ui: 'bdd'
-      }
+      },
+      chai: {
+        includeStack: true
+      }      
     },
     failOnEmptyTestSuite: false,
     autoWatch: true

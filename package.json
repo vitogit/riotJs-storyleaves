@@ -15,7 +15,8 @@
     "riot",
     "karma",
     "mocha",
-    "chai"
+    "chai",
+    "sinon"
   ],
   "author": "vitogit",
   "license": "ISC",
@@ -30,8 +31,11 @@
     "karma-mocha-reporter": "^1.2.1",
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-riot": "^1.0.1",
+    "karma-sinon-chai": "^1.2.0",
+    "lolex": "^1.4.0",
     "mocha": "^2.4.5",
     "phantomjs-prebuilt": "^2.1.4",
-    "riot": "^2.3.15"
+    "riot": "^2.3.15",
+    "sinon-chai": "^2.8.0"
   }
 }

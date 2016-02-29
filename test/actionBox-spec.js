@@ -23,9 +23,9 @@ describe('ActionBox spec', function() {
       var game = document.createElement('game')
       document.body.appendChild(game)
       var actions = [{name:'initGame', label:'Comenzar juego'}]
-      tag = riot.mount('actionBox', {actions:actions})[0]
-      tagParent = riot.mount('game')[0]
-      tag.parent = tagParent //mocking the parent
+      //tag = riot.mount('actionBox', {actions:actions})[0]
+      //tagParent = riot.mount('game')[0]
+      //tag.parent = tagParent //mocking the parent
       //PENDING use Sinon.js to mock and spy
     })
 
@@ -44,9 +44,7 @@ describe('ActionBox spec', function() {
     })
 
     it('exist a onclick event ', function() {
-      //
-      // var actionDom = document.querySelector('.action').outerHTML
-      // console.log('____'+actionDom)
+
     })
 
     it('calls parent to execute an action ', function() {
