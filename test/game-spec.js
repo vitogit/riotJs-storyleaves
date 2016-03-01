@@ -114,8 +114,8 @@ describe('Game spec', function() {
         tag.currentPhase = 0
       });
 
-      it('has an actionBox children tag ', function() {
-        expect(tag.tags.actionbox).to.exist
+      it('has an action_box children tag ', function() {
+        expect(tag.tags.action_box).to.exist
       })
 
       it('has a chat children tag ', function() {
@@ -131,7 +131,7 @@ describe('Game spec', function() {
         tag.doAction('initGame')
         expect(tag.areas.main.cards).to.have.lengthOf(mainDeckLength-5)
         expect(tag.areas.temp.cards).to.have.lengthOf(5)
-        expect(tag.tags.actionbox.actions[0].name).to.be.eq('choosePj')
+        expect(tag.tags.action_box.actions[0].name).to.be.eq('choosePj')
       })
 
       it('choose a first character ', function() {

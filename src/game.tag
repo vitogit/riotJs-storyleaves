@@ -1,6 +1,6 @@
 <game>
   <chat/>
-  <actionBox />
+  <action_box/>
 
   <script>
 
@@ -68,7 +68,7 @@
     }
 
     this.nextActions = function(actions) {
-      this.tags.actionbox.actions = actions
+      this.tags.action_box.actions = actions
     }
 
   </script>

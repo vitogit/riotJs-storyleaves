@@ -1,4 +1,4 @@
-<actionBox>
+<action_box>
     <div class="action" each={action in actions} onclick='{doAction}'>
       {action.label}
     </div>
@@ -10,4 +10,4 @@
       this.parent.parent.doAction(actionName) //not sure why parent.parent
     }
   </script>
-</actionBox>
+</action_box>
