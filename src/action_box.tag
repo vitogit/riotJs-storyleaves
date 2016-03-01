@@ -4,10 +4,23 @@
     </div>
 
   <script>
-    this.actions = opts.actions || [{name:'initGame', label:'Comenzar juego'}]
+
+    this.actions = []
+    var self = this
+    //opts.actions || [{name:'initGame', label:'Comenzar juego'}]
+    
     this.doAction = function(e) {
-      var actionName = e.item.action.name
-      this.parent.parent.doAction(actionName) //not sure why parent.parent
+      RiotControl.trigger('game_action_run', e.item.action.name)
     }
+    
+    this.on('mount', function() {
+      this.actions = opts.actions || RiotControl.trigger('action_init')
+    })   
+    
+    RiotControl.on('actions_changed', function(actions) {
+      self.actions = actions
+      self.update()
+    })    
+       
   </script>
 </action_box>
