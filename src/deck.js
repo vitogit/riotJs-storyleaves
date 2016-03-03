@@ -26,7 +26,6 @@ Deck.prototype.topCards = function topCards(numberOfCards) {
 
 Deck.prototype.load = function load(cards) {
   this.cards = this.cards.concat(cards)
-  console.log
 }
 
 Deck.prototype.unload = function unload(cards) {

@@ -127,11 +127,11 @@ describe('Game spec', function() {
       })
 
       it('execute initGame: moving 5 cards from main place to temp', function() {
-        var mainDeckLength = tag.areas.main.cards.length
-        tag.doAction('initGame')
-        expect(tag.areas.main.cards).to.have.lengthOf(mainDeckLength-5)
-        expect(tag.areas.temp.cards).to.have.lengthOf(5)
-        expect(tag.tags.action_box.actions[0].name).to.be.eq('choosePj')
+        // var mainDeckLength = tag.areas.main.cards.length
+        // tag.doAction('initGame')
+        // expect(tag.areas.main.cards).to.have.lengthOf(mainDeckLength-5)
+        // expect(tag.areas.temp.cards).to.have.lengthOf(5)
+        // expect(tag.tags.action_box.actions[0].name).to.be.eq('choosePj')
       })
 
       it('choose a first character ', function() {

@@ -51,7 +51,7 @@
 
     var self = this
   
-    ActionStore.on('run_action', function(actionName) {
+    riot.actionStore.on('run_action', function(actionName) {
       self.doAction(actionName)
     })  
     
@@ -74,7 +74,7 @@
     }
 
     this.nextActions = function(actions) {
-      ActionStore.trigger('add_actions', actions)
+      riot.actionStore.trigger('add_actions', actions)
     }
 
   </script>

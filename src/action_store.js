@@ -11,10 +11,12 @@ function ActionStore() {
     self.actions = newActions 
     self.trigger('update_actions', self.actions)        
   })
-  
+
   self.on('init_actions', function() {
     self.trigger('update_actions', self.actions)
   })
-  
+  // 
   
 }
+
+riot.actionStore = new ActionStore()
