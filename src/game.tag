@@ -51,7 +51,7 @@
 
     var self = this
   
-    RiotControl.on('game_action_run', function(actionName) {
+    RiotControl.on('run_action', function(actionName) {
       self.doAction(actionName)
     })  
     
@@ -75,8 +75,7 @@
     }
 
     this.nextActions = function(actions) {
-      //this.tags.action_box.actions = actions
-      RiotControl.trigger('actions_add',actions)
+      RiotControl.trigger('add_actions', actions)
     }
 
   </script>

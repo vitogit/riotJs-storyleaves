@@ -1,24 +1,23 @@
 <action_box>
-    <div class="action" each={action in actions} onclick='{doAction}'>
+    <div class="action" each={action in current_actions} onclick='{runAction}'>
       {action.label}
     </div>
 
   <script>
 
-    this.actions = []
+    this.current_actions = []
     var self = this
-    //opts.actions || [{name:'initGame', label:'Comenzar juego'}]
-    
-    this.doAction = function(e) {
-      RiotControl.trigger('game_action_run', e.item.action.name)
+  
+    this.runAction = function(e) {
+      RiotControl.trigger('run_action', e.item.action.name)
     }
     
     this.on('mount', function() {
-      this.actions = opts.actions || RiotControl.trigger('action_init')
+      RiotControl.trigger('init_actions')
     })   
     
-    RiotControl.on('actions_changed', function(actions) {
-      self.actions = actions
+    RiotControl.on('update_actions', function(actions) {
+      self.current_actions = actions
       self.update()
     })    
        

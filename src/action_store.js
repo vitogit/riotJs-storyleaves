@@ -7,13 +7,13 @@ function ActionStore() {
     { name: 'initGame', label: 'Comenzar juego' }
   ]
 
-  self.on('actions_add', function(newActions) {
+  self.on('add_actions', function(newActions) {
     self.actions = newActions 
-    self.trigger('actions_changed', self.actions)        
+    self.trigger('update_actions', self.actions)        
   })
   
-  self.on('action_init', function() {
-    self.trigger('actions_changed', self.actions)
+  self.on('init_actions', function() {
+    self.trigger('update_actions', self.actions)
   })
 
 }
