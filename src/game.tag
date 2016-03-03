@@ -51,12 +51,11 @@
 
     var self = this
   
-    RiotControl.on('run_action', function(actionName) {
+    ActionStore.on('run_action', function(actionName) {
       self.doAction(actionName)
     })  
     
     this.doAction = function(actionName, data) {
-      console.log('actionname_____'+actionName)
       switch(actionName) {
         case 'initGame':
          var mainDeck = this.areas.main
@@ -75,7 +74,7 @@
     }
 
     this.nextActions = function(actions) {
-      RiotControl.trigger('add_actions', actions)
+      ActionStore.trigger('add_actions', actions)
     }
 
   </script>

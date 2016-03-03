@@ -15,5 +15,6 @@ function ActionStore() {
   self.on('init_actions', function() {
     self.trigger('update_actions', self.actions)
   })
-
+  
+  
 }

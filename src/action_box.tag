@@ -1,5 +1,5 @@
 <action_box>
-    <div class="action" each={action in current_actions} onclick='{runAction}'>
+    <div class="action" each={action in current_actions} onclick="ActionStore.trigger('run_action', '{action.name}')">
       {action.label}
     </div>
 
@@ -7,16 +7,12 @@
 
     this.current_actions = []
     var self = this
-  
-    this.runAction = function(e) {
-      RiotControl.trigger('run_action', e.item.action.name)
-    }
-    
+
     this.on('mount', function() {
-      RiotControl.trigger('init_actions')
+      ActionStore.trigger('init_actions')
     })   
     
-    RiotControl.on('update_actions', function(actions) {
+    ActionStore.on('update_actions', function(actions) {
       self.current_actions = actions
       self.update()
     })    
