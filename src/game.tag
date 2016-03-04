@@ -142,8 +142,16 @@
                   
           break
         case 'wait':
+          var enemyCard = self.areas.main.topCard()        
+          riot.actionStore.trigger('add_chat', 'Esperas, pero tu enemigo intenta algo contra ti: '+enemyCard.text)
           break
         case 'sacrifice':
+          var resourceName = data['resourceName']
+          var cards = self.areas.main.topCards(2)
+          self.moveCardsFromTo('main', 'hand', cards)
+          riot.actionStore.trigger('add_chat', 'Sacrificas tu recurso: '+tag.resources[resourceName].card.text)
+          riot.actionStore.trigger('add_chat', 'Explica como se pierde para siempre')
+          tag.resources[resourceName].unset()
           break 
         case 'reverse':
           break                       

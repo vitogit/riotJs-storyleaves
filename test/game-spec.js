@@ -235,6 +235,7 @@ describe('Game spec', function() {
           expect(tag.areas.discard.cards).to.have.lengthOf(2)
           expect(tag.tags.chat.messages).to.have.lengthOf(1)
         })   
+        
         it('run move: attack enemy', function() {
           var myCard = {number:1, text:'Aspecto: my card'}
           var enemyResourceCard = {number:5, text:'Aspecto:enemy card'}
@@ -244,11 +245,22 @@ describe('Game spec', function() {
           tag.doMove('attack', data)
           expect(tag.areas.hand.cards).to.have.lengthOf(0)
           expect(tag.resources.enemy_feature.card.text).to.be.undefined
+          expect(tag.tags.chat.messages).to.have.lengthOf(1)
+          
         }) 
-        // it('run move: wait', function() {
-        // }) 
-        // it('run move: sacrifice resource', function() {
-        // }) 
+        
+        it('run move: wait', function() {
+          tag.doMove('wait')
+          expect(tag.tags.chat.messages).to.have.lengthOf(1)
+        }) 
+        
+        it('run move: sacrifice resource', function() {
+          var data = {resourceName: 'pj_feature'}
+          tag.doMove('sacrifice', data)
+          expect(tag.resources.pj_feature.card.text).to.be.undefined
+          expect(tag.areas.hand.cards).to.have.lengthOf(2)
+          expect(tag.tags.chat.messages).to.have.lengthOf(2)
+        }) 
         // it('run move: reverse condition', function() {
         // })                                  
       })             
