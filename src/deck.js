@@ -9,7 +9,15 @@ function Deck(arrayCards) {
 Deck.prototype.initCards = function initCards(arrayCards) {
   var cards = [];
   for (var i=0; i<arrayCards.length ; i++) {
-  	cards.push({number:i+1, text: arrayCards[i]});
+    var cardText = arrayCards[i]
+    var cardType =''
+    var typeList = ['Personaje', 'Lugar', 'Objeto', 'Aspecto', 'Detalle']
+    typeList.forEach(function(type){
+      if (cardText.indexOf(type) > -1) {
+        cardType = type
+      }
+    })
+  	cards.push({number:i+1, text: cardText, type:cardType});
   }
   return cards
 }
