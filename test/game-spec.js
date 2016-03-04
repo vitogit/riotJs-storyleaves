@@ -222,7 +222,7 @@ describe('Game spec', function() {
       
       describe('Movements', function() {
 
-        it('run move: pursue goal', function() {
+        it('run move: pursue goal (and succeed)', function() {
           var myCard = {number:1, text:'Aspecto: my card'}
           var enemyCard = {number:5, text:'Aspecto:enemy card'}
           tag.loadArea('hand', [myCard])
@@ -261,8 +261,19 @@ describe('Game spec', function() {
           expect(tag.areas.hand.cards).to.have.lengthOf(2)
           expect(tag.tags.chat.messages).to.have.lengthOf(2)
         }) 
-        // it('run move: reverse condition', function() {
-        // })                                  
+        
+        it('run move: reverse condition (and lost)', function() {
+          var myCard = {number:10, text:'Aspecto: my 10 card'}
+          var enemyCard = {number:5, text:'Aspecto:enemy card'}
+          tag.loadArea('hand', [myCard])
+          tag.areas.main.cards = [enemyCard]
+          var data = {myCard: myCard}
+          tag.doMove('reverse', data)
+          expect(tag.areas.hand.cards).to.have.lengthOf(0)
+          expect(tag.characterConditions).to.be.eq(1)
+          expect(tag.areas.discard.cards).to.have.lengthOf(2)
+          expect(tag.tags.chat.messages).to.have.lengthOf(1)
+        })                                  
       })             
     })
   })

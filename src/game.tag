@@ -50,6 +50,7 @@
     }
 
     this.characterProgress = 0
+    this.characterConditions = 0
     
     var self = this
 
@@ -154,6 +155,17 @@
           tag.resources[resourceName].unset()
           break 
         case 'reverse':
+          var myCard = data['myCard']
+          var enemyCard = self.areas.main.topCard()        
+          if (myCard.number < enemyCard.number) {
+            riot.actionStore.trigger('add_chat', 'Logras revertir la situación')
+          } else {
+            riot.actionStore.trigger('add_chat', 'No logras revertir la situación, y obtienes otra condición')
+            self.characterConditions++
+            
+          }
+          self.moveCardsFromTo('hand', 'discard', myCard)
+          self.moveCardsFromTo('main', 'discard', enemyCard)        
           break                       
         default:
           console.log('default move')
