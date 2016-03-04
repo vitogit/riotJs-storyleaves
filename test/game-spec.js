@@ -126,6 +126,10 @@ describe('Game spec', function() {
       it('has a chat children tag ', function() {
         expect(tag.tags.chat).to.exist
       })
+      
+      it('has a info_box children tag ', function() {
+        expect(tag.tags.info_box).to.exist
+      })      
 
       it('has 40 cards in the main place ', function() {
         expect(tag.areas.main.cards).to.have.lengthOf(40)

@@ -1,6 +1,7 @@
 <game>
   <chat/>
-  <action_box/>
+  <action_box />
+  <info_box resources={this.resources}/>
 
   <script>
 
@@ -73,6 +74,7 @@
          }
          riot.actionStore.trigger('add_chat', 'Elige al protagonista')
          this.nextActions(actions)
+                
          break
         case 'choosePj':
           var card = data['card']
