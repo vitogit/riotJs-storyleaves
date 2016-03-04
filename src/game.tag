@@ -50,21 +50,30 @@
     }
 
     var self = this
-  
+
     riot.actionStore.on('run_action', function(actionName) {
       self.doAction(actionName)
-    })  
-    
+    })
+
     this.doAction = function(actionName, data) {
       switch(actionName) {
         case 'initGame':
          var mainDeck = this.areas.main
          //mainDeck.shuffle()
-         var cards = mainDeck.topCards(5)
+         var newDeck = mainDeck.findByType('Personaje')
+         var cards = newDeck.topCards(5)
          this.moveCardsFromTo('main', 'temp', cards)
-         this.nextActions([{name:'choosePj', label:'Elige el protagonista'}])
+
+         var actions = []
+         for (var i=0; i< cards.length; i++) {
+           actions.push({name:'choosePj', label:cards[i].number+' '+cards[i].text, data:{card:cards[i]}})
+         }
+         riot.actionStore.trigger('add_chat', 'Elige al protagonista')
+         this.nextActions(actions)
          break
-        case 'initGame2':
+        case 'choosePj':
+          var card = data['card']
+          tag.moveFromAreaToResource('temp','pj',card)
           console.log(' action2')
         case 'initGame3':
           console.log(' action2')
