@@ -120,12 +120,26 @@
           var enemyCard = self.areas.main.topCard()        
           if (myCard.number < enemyCard.number) {
             self.characterProgress++
+            riot.actionStore.trigger('add_chat', 'Superado, aumenta tu progreso a '+self.characterProgress)
+          } else {
+            riot.actionStore.trigger('add_chat', 'No superado')
           }
           self.moveCardsFromTo('hand', 'discard', myCard)
           self.moveCardsFromTo('main', 'discard', enemyCard)
-
+          
           break
         case 'attack':
+          var myCard = data['myCard']
+          var enemyResource = data['enemyResource']
+          var enemyCard = tag.resources[enemyResource].card
+          if (myCard.number < enemyCard.number) {      
+            riot.actionStore.trigger('add_chat', 'Triunfas. Tu carta: '+myCard.text+' supera a la carta de tu enemigo: '+enemyCard.text)
+            tag.resources[enemyResource].unset()
+          } else {
+            riot.actionStore.trigger('add_chat', 'Pierdes. Tu carta: '+myCard.text+' pierde ante la carta de tu enemigo: '+enemyCard.text)
+          }
+          self.moveCardsFromTo('hand', 'discard', myCard)
+                  
           break
         case 'wait':
           break
