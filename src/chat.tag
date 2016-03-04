@@ -25,7 +25,17 @@
     this.addGeneric = function(text, user) {
       this.messages.push({text:text, user: user})
     }
+    var self = this
 
+    riot.actionStore.on('add_chat', function(message) {
+      self.addGeneric(message, 'master')
+      self.update()
+    })
+
+    riot.actionStore.on('update_chat', function(messages) {
+      self.messages = messages
+      self.update()
+    })
   </script>
 
   <style>
