@@ -49,6 +49,8 @@
       }
     }
 
+    this.characterProgress = 0
+    
     var self = this
 
     riot.actionStore.on('run_action', function(actionName) {
@@ -111,5 +113,30 @@
       self.moveCardsFromTo('main', 'hand', cards)
     }      
 
+    this.doMove = function(moveName, data) {
+      switch(moveName) {
+        case 'goal':
+          var myCard = data['myCard']
+          var enemyCard = self.areas.main.topCard()        
+          if (myCard.number < enemyCard.number) {
+            self.characterProgress++
+          }
+          self.moveCardsFromTo('hand', 'discard', myCard)
+          self.moveCardsFromTo('main', 'discard', enemyCard)
+
+          break
+        case 'attack':
+          break
+        case 'wait':
+          break
+        case 'sacrifice':
+          break 
+        case 'reverse':
+          break                       
+        default:
+          console.log('default move')
+          break
+      }
+    }
   </script>
 </game>

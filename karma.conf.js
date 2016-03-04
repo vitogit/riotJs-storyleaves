@@ -25,7 +25,7 @@ module.exports = function(config) {
     client: {
       mocha: {
         ui: 'bdd',
-        grep: 'select the',
+        grep: 'Movements',
       },
       chai: {
         includeStack: true

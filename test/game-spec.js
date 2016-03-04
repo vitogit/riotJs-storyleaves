@@ -217,9 +217,36 @@ describe('Game spec', function() {
           tag.selectDestinyCards()
           expect(tag.areas.hand.cards).to.have.lengthOf(5)
           expect(tag.areas.main.cards).to.have.lengthOf(mainDeckLength-5)
-        })
-            
-      })      
+        })    
+      }) 
+      
+      describe('Movements', function() {
+
+        it('run move: pursue goal', function() {
+          var myCard = {number:1, text:'Aspecto: my card'}
+          var enemyCard = {number:5, text:'Aspecto:enemy card'}
+          tag.loadArea('hand', [myCard])
+          tag.areas.main.cards = [enemyCard]
+          // sinon.mock(tag.areas.main).expects("topCard").returns(enemyCard) also could work with a mock
+          var data = {myCard: myCard}
+          tag.doMove('goal', data)
+          expect(tag.areas.hand.cards).to.have.lengthOf(0)
+          expect(tag.characterProgress).to.be.eq(1)
+          expect(tag.areas.discard.cards).to.have.lengthOf(2)
+          
+          // expect(tag.areas.main.cards).to.have.lengthOf(0)
+          // expect(tag.tags.chat.messages).to.have.lengthOf(1)
+
+        })   
+        // it('run move: attack enemy', function() {
+        // }) 
+        // it('run move: wait', function() {
+        // }) 
+        // it('run move: sacrifice resource', function() {
+        // }) 
+        // it('run move: reverse condition', function() {
+        // })                                  
+      })             
     })
   })
 
