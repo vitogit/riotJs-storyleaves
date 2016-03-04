@@ -91,6 +91,12 @@ describe('Deck spec', function() {
       expect(deck.cards[1].number).to.be.eq(2)
       expect(deck.cards[0].text).to.be.eq(cardArray[0])
       expect(deck.cards[1].text).to.be.eq(cardArray[1])
+    it('select card by type', function() {
+      var cardArray = ['Personaje:card1', 'Lugar:card2']
+      var deck = new Deck(cardArray)
+      var newDeck = deck.findByType('Personaje')
+      expect(newDeck.cards).to.have.lengthOf(1)
+      expect(newDeck.cards[0].text).to.be.eq(cardArray[0])
     })
   })
 

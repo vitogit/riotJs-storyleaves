@@ -14,6 +14,21 @@ Deck.prototype.initCards = function initCards(arrayCards) {
   return cards
 }
 
+Deck.prototype.findByType = function findByType(varType) {
+  var mapTypeCards = {};
+  for (var i=0; i< this.cards.length ; i++) {
+    var cardType = this.cards[i].type
+
+    if (!mapTypeCards[cardType]) {
+      mapTypeCards[cardType] = []
+    }
+    mapTypeCards[cardType].push(this.cards[i])
+  }
+  var newDeck = new Deck()
+  newDeck.cards = mapTypeCards[varType]
+  return newDeck
+}
+
 Deck.prototype.topCards = function topCards(numberOfCards) {
   var topCards = [];
   if (this.cards.length >= numberOfCards) {
