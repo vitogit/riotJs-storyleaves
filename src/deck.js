@@ -47,6 +47,13 @@ Deck.prototype.topCards = function topCards(numberOfCards) {
   }
 }
 
+Deck.prototype.topCard = function topCard() {
+  cards = this.topCards(1)
+  if (cards && cards.length >0) {
+    return cards[0]
+  }
+}
+
 Deck.prototype.load = function load(cards) {
   this.cards = this.cards.concat(cards)
 }

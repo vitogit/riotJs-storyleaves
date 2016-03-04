@@ -5,9 +5,9 @@
   <script>
 
     this.areas = {'main':new Deck(), 'temp':new Deck(),'game':new Deck(), 'hand':new Deck(), 'discard':new Deck()}
-    this.resources = {'pj':new Resource(), 'ally':new Resource(), 'enemy':new Resource()
-                      // 'pj_feature':new Resource(), 'ally_feature':new Resource(), 'enemy_feature':new Resource(),
-                      // 'pj_ally_rel':new Resource(), 'pj_enemy_rel':new Resource(), 'ally_enemy_rel':new Resource()
+    this.resources = {'pj':new Resource(), 'ally':new Resource(), 'enemy':new Resource(),
+                      'pj_feature':new Resource(), 'ally_feature':new Resource(), 'enemy_feature':new Resource(),
+                      'pj_ally_rel':new Resource(), 'pj_enemy_rel':new Resource(), 'ally_enemy_rel':new Resource()
                     }
     this.areas.main = new Deck(defaultDeck) //set default deck to the main place
 
@@ -85,6 +85,31 @@
     this.nextActions = function(actions) {
       riot.actionStore.trigger('add_actions', actions)
     }
+    
+    this.selectCharactersFeatures = function() {
+      var characters = ['pj', 'ally', 'enemy']
+      characters.forEach(function(character) {
+        var card = self.areas.main.topCard()
+        var characterFeature = character+'_feature'
+        self.moveFromAreaToResource('main', characterFeature , card)
+      })
+    }
+    
+    this.selectCharactersRelationships = function() {
+      var card = self.areas.main.topCard()
+      self.moveFromAreaToResource('main', 'pj_ally_rel' , card)
+      
+      var card = self.areas.main.topCard()
+      self.moveFromAreaToResource('main', 'pj_enemy_rel' , card)
+      
+      var card = self.areas.main.topCard()
+      self.moveFromAreaToResource('main', 'ally_enemy_rel' , card)            
+    }  
+    
+    this.selectDestinyCards = function() {
+      var cards = self.areas.main.topCards(5)
+      self.moveCardsFromTo('main', 'hand', cards)
+    }      
 
   </script>
 </game>
