@@ -5,17 +5,17 @@
 
   <script>
 
-    this.current_actions = opts.current_actions || [] 
+    this.current_actions = opts.current_actions || []
     var self = this
 
     this.on('mount', function() {
       riot.actionStore.trigger('init_actions')
-    })   
-    
+    })
+
     riot.actionStore.on('update_actions', function(actions) {
       self.current_actions = actions
       self.update()
-    })    
-       
+    })
+
   </script>
 </action_box>
