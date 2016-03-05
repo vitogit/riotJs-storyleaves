@@ -1,13 +1,18 @@
 <chat>
-  <h1>Chat</h1>
-  <ul>
-    <li class="message { message.user == 'master' ? 'master' : '' }" each={message in messages}>
-      {message.text}
-    </li>
-  </ul>
-  <form onsubmit={add}>
-    <input name="input" >
-  </form>
+  <div class="text-box">
+    <ul>
+      <li class="message { message.user == 'master' ? 'master' : '' }" each={message in messages}>
+        {message.text}
+      </li>
+    </ul>
+  </div>
+
+  <div class="input-box">
+    <form onsubmit={add}>
+      <input name="input" >
+    </form>
+  </div>
+
 
   <script>
     this.messages = opts.messages || []

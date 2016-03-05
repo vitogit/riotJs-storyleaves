@@ -1,0 +1,45 @@
+chat {
+  font-family: 'Roboto', Arial;
+  color: #337ab7;
+  font-weight: 100;
+  font-size: 16px;
+}
+
+chat input, chat li {
+  width: 100%;
+}
+
+chat input {
+  border: 1px solid #337ab7;
+  margin: 4px 0;
+  padding: 10px;
+}
+
+chat li {
+  list-style-type: none;
+}
+
+.text-box {
+  margin-top: 20px;
+  border: 1px solid #337ab7;
+  
+}
+.action.btn {
+  margin: 5px;
+}
+
+.master {
+  background: #eee;
+  font-style: italic;
+  color:black;
+  font-size: 14px;
+
+}
+
+.text-box {
+  height: 50%;
+  overflow: auto;
+}
+ol, ul {
+    padding:5px
+}

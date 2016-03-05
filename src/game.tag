@@ -1,7 +1,14 @@
 <game>
-  <chat/>
-  <action_box />
-  <info_box resources={this.resources}/>
+
+  <div class="left col-md-4">
+    <info_box resources={this.resources}/>
+  </div>
+  <div class="right col-md-8">
+    <chat/>
+    <action_box />
+  </div>
+
+
 
   <script>
 

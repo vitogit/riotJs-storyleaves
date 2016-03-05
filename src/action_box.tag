@@ -1,5 +1,5 @@
 <action_box>
-    <div class="action" each={action in current_actions} onclick={run_action}>
+    <div class="btn btn-sm btn-default action" each={action in current_actions} onclick={run_action}>
       {action.label}
     </div>
 
