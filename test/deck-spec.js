@@ -85,12 +85,22 @@ describe('Deck spec', function() {
     })
 
     it('transform an arrayCards to Cards(object)', function() {
-      var cardArray = ['card1', 'card2']
-      deck = new Deck(cardArray)
+      var cardArray = ['Personaje:card1', 'Lugar:card2']
+      var deck = new Deck(cardArray)
       expect(deck.cards[0].number).to.be.eq(1)
       expect(deck.cards[1].number).to.be.eq(2)
       expect(deck.cards[0].text).to.be.eq(cardArray[0])
       expect(deck.cards[1].text).to.be.eq(cardArray[1])
+      expect(deck.cards[0].type).to.be.eq('Personaje')
+      expect(deck.cards[1].type).to.be.eq('Lugar')
+    })
+
+    it('select card by type', function() {
+      var cardArray = ['Personaje:card1', 'Lugar:card2']
+      var deck = new Deck(cardArray)
+      var newDeck = deck.findByType('Personaje')
+      expect(newDeck.cards).to.have.lengthOf(1)
+      expect(newDeck.cards[0].text).to.be.eq(cardArray[0])
     })
   })
 

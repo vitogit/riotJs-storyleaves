@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "karma start",
-    "browsersync": "browser-sync start --server --files 'src/*' --startPath src",
+    "browsersync": "browser-sync start --server --files 'src/**/*.js, src/**/*.tag' --startPath src",
     "start": "npm run browsersync"
   },
   "keywords": [

@@ -12,7 +12,6 @@ module.exports = function(config) {
       'karma-jquery'
     ],
     files: [
-      //'node_modules/chai/chai',
       'src/**/*.tag',
       'src/**/*.js',
       'test/**/*.js'
@@ -28,7 +27,7 @@ module.exports = function(config) {
       },
       chai: {
         includeStack: true
-      }      
+      }
     },
     failOnEmptyTestSuite: false,
     autoWatch: true

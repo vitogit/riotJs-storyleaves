@@ -9,9 +9,32 @@ function Deck(arrayCards) {
 Deck.prototype.initCards = function initCards(arrayCards) {
   var cards = [];
   for (var i=0; i<arrayCards.length ; i++) {
-  	cards.push({number:i+1, text: arrayCards[i]});
+    var cardText = arrayCards[i]
+    var cardType =''
+    var typeList = ['Personaje', 'Lugar', 'Objeto', 'Aspecto', 'Detalle']
+    typeList.forEach(function(type){
+      if (cardText.indexOf(type) > -1) {
+        cardType = type
+      }
+    })
+  	cards.push({number:i+1, text: cardText, type:cardType});
   }
   return cards
+}
+
+Deck.prototype.findByType = function findByType(varType) {
+  var mapTypeCards = {};
+  for (var i=0; i< this.cards.length ; i++) {
+    var cardType = this.cards[i].type
+
+    if (!mapTypeCards[cardType]) {
+      mapTypeCards[cardType] = []
+    }
+    mapTypeCards[cardType].push(this.cards[i])
+  }
+  var newDeck = new Deck()
+  newDeck.cards = mapTypeCards[varType]
+  return newDeck
 }
 
 Deck.prototype.topCards = function topCards(numberOfCards) {
@@ -26,7 +49,6 @@ Deck.prototype.topCards = function topCards(numberOfCards) {
 
 Deck.prototype.load = function load(cards) {
   this.cards = this.cards.concat(cards)
-  console.log
 }
 
 Deck.prototype.unload = function unload(cards) {

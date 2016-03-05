@@ -49,26 +49,57 @@
       }
     }
 
+    this.cardsToActions = function(cards, actionName) {
+      var actions = []
+      for (var i=0; i< cards.length; i++) {
+        actions.push({name:actionName, label:cards[i].number+' '+cards[i].text, data:{card:cards[i]}})
+      }
+      return actions
+    }
+
+    this.chooseCharacter = function(data, resourceName, nextActionName, characterLabel, nextCharacterLabel ) {
+      var card = data['card']
+      this.moveFromAreaToResource('temp', resourceName ,card)
+      var actions = this.cardsToActions(this.areas.temp.cards, nextActionName)
+      riot.actionStore.trigger('add_chat', 'El '+characterLabel+' es: '+card.text)
+      riot.actionStore.trigger('add_chat', 'Elige a tu '+nextCharacterLabel)
+      this.nextActions(actions)
+    }
+
+    var self = this
+
+    riot.actionStore.on('run_action', function(actionName, data) {
+      self.doAction(actionName, data)
+    })
+
     this.doAction = function(actionName, data) {
       switch(actionName) {
         case 'initGame':
          var mainDeck = this.areas.main
          //mainDeck.shuffle()
-         var cards = mainDeck.topCards(5)
+         var newDeck = mainDeck.findByType('Personaje')
+         var cards = newDeck.topCards(5)
          this.moveCardsFromTo('main', 'temp', cards)
-         this.nextActions([{name:'choosePj', label:'Elige el protagonista'}])
+         var actions = this.cardsToActions(cards, 'choosePj')
+         riot.actionStore.trigger('add_chat', 'Elige al protagonista')
+         this.nextActions(actions)
          break
-        case 'initGame2':
-          console.log(' action2')
-        case 'initGame3':
-          console.log(' action2')
+        case 'choosePj':
+          this.chooseCharacter(data, 'pj', 'chooseAlly', 'protagonista', 'aliado' )
+          break
+        case 'chooseAlly':
+          this.chooseCharacter(data, 'ally', 'chooseEnemy', 'aliado', 'enemigo' )
+          break
+        case 'chooseEnemy':
+            this.chooseCharacter(data, 'enemy', 'choosePjFeature', 'enemigo', 'caracteristica del pj' )
+            break
         default:
           console.log('default action')
       }
     }
 
     this.nextActions = function(actions) {
-      this.tags.action_box.actions = actions
+      riot.actionStore.trigger('add_actions', actions)
     }
 
   </script>

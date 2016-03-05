@@ -126,18 +126,43 @@ describe('Game spec', function() {
         expect(tag.areas.main.cards).to.have.lengthOf(40)
       })
 
-      it('execute initGame: moving 5 cards from main place to temp', function() {
-        var mainDeckLength = tag.areas.main.cards.length
-        tag.doAction('initGame')
-        expect(tag.areas.main.cards).to.have.lengthOf(mainDeckLength-5)
-        expect(tag.areas.temp.cards).to.have.lengthOf(5)
-        expect(tag.tags.action_box.actions[0].name).to.be.eq('choosePj')
+      context('execute initGame', function() {
+        beforeEach(function() {
+          mainDeckLength = tag.areas.main.cards.length
+          tag.doAction('initGame')
+        });
+
+        it('moves 5 cards from main place to temp', function() {
+          expect(tag.areas.main.cards).to.have.lengthOf(mainDeckLength-5)
+          expect(tag.areas.temp.cards).to.have.lengthOf(5)
+        })
+
+        it('return 5 character cards', function() {
+          var cardCounter = 0
+          tag.areas.temp.cards.forEach(function(card){
+              if (card.type == 'Personaje') {
+                cardCounter++
+              }
+          })
+          expect(cardCounter).to.be.eq(5)
+        })
+
+        it('changes the currentActions showing the 5 cards', function() {
+          expect(tag.tags.action_box.current_actions).to.have.lengthOf(5)
+        })
+
+        it('sends a chat message', function() {
+          expect(tag.tags.chat.messages).to.have.lengthOf(1)
+        })
       })
 
+
       it('choose a first character ', function() {
-        //var card =
-        tag.doAction('choosePj')
-      //  expect(tag.resources.pj).to.exist.lengthOf(5)
+        // var cards = tag.areas.main.topCards(5)
+        // tag.moveCardsFromTo('main', 'temp', cards)
+        // var card = tag.areas.temp.cards[0]
+        // tag.doAction('choosePj')
+        // expect(tag.resources.pj.card).to.be.eq(card)
       })
 
 
