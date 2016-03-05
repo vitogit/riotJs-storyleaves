@@ -29,6 +29,27 @@ describe('Deck spec', function() {
       expect(card2).to.be.eq('{"number":2,"text":"card2"}')
     })
 
+    it('get top card', function() {
+      var cards = [{number:1, text:'card1'},
+              {number:2, text:'card2'},
+              {number:3, text:'card3'}
+      ]
+      deck.load(cards)
+      var topCard = deck.topCard()
+      expect(topCard).to.be.eq(cards[0])
+    })
+    
+    context('There are no cards', function() { 
+      it('not break when trying to get top 2 cards', function() {
+        var topCards = deck.topCards(2)
+        expect(topCards).to.be.undefined
+      })       
+      it('not break when trying to get top card', function() {
+        var topCard = deck.topCard()
+        expect(topCard).to.be.undefined
+      })    
+    }) 
+    
     it('load a single card to the deck', function() {
       card = {number:1, text:'card1'}
       deck.load(card)

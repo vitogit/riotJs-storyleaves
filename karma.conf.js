@@ -23,7 +23,8 @@ module.exports = function(config) {
     reporters: ['mocha'],
     client: {
       mocha: {
-        ui: 'bdd'
+        ui: 'bdd',
+        grep: 'select the',
       },
       chai: {
         includeStack: true

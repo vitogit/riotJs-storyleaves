@@ -30,6 +30,11 @@ describe('Game spec', function() {
       expect(tag.resources).to.exist;
       expect(tag.resources).to.be.an('object');
     })
+    
+    it('has 9 resources', function() {
+      expect(tag.resources).to.exist;
+      expect(Object.keys(tag.resources)).to.have.lengthOf(9)
+    })    
 
     it('adds 2 cards to game area', function() {
       cards = [{number:1, text:'card1'},
@@ -102,7 +107,7 @@ describe('Game spec', function() {
     });
   })
 
-  context('Mechanics', function() {
+  describe('Mechanics', function() {
     beforeEach(function() {
       var html = document.createElement('game')
       document.body.appendChild(html)
@@ -110,7 +115,7 @@ describe('Game spec', function() {
     });
 
     context('Phase 0', function() {
-      before(function() {
+      beforeEach(function() {
         tag.currentPhase = 0
       });
 
@@ -173,6 +178,48 @@ describe('Game spec', function() {
       // it('choose a enemy character ', function() {
       //
       // })
+      
+      describe('select the resources', function() {
+        beforeEach(function() {
+          tag.doAction('selectResources')
+        });
+
+        it('select the characters feature', function() {
+          mainDeckLength = tag.areas.main.cards.length
+        
+          tag.selectCharactersFeatures()
+          var characters = ['pj', 'ally', 'enemy']
+          characters.forEach(function(character) {
+            var characterFeature = character+'_feature'
+            expect(tag.resources[characterFeature].card).to.exist
+          })
+          expect(tag.areas.main.cards).to.have.lengthOf(mainDeckLength-3)          
+        })
+        
+        it('select the characters relationships', function() {
+          mainDeckLength = tag.areas.main.cards.length
+          tag.selectCharactersRelationships()
+          expect(tag.resources.pj_ally_rel.card.text).to.exist
+          expect(tag.resources.pj_enemy_rel.card.text).to.exist
+          expect(tag.resources.ally_enemy_rel.card.text).to.exist
+          expect(tag.areas.main.cards).to.have.lengthOf(mainDeckLength-3)
+          //PENDING refactor: is testing multiple behaviours
+        })              
+      })
+      
+      describe('select the destiny cards', function() {
+        beforeEach(function() {
+          tag.doAction('selectDestinyCards')
+        });
+
+        it('moves 5 cards from main to hand', function() {
+          mainDeckLength = tag.areas.main.cards.length
+          tag.selectDestinyCards()
+          expect(tag.areas.hand.cards).to.have.lengthOf(5)
+          expect(tag.areas.main.cards).to.have.lengthOf(mainDeckLength-5)
+        })
+            
+      })      
     })
   })
 
