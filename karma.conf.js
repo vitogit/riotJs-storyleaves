@@ -28,7 +28,7 @@ module.exports = function(config) {
       },
       chai: {
         includeStack: true
-      }      
+      }
     },
     failOnEmptyTestSuite: false,
     autoWatch: true
