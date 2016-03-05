@@ -12,7 +12,6 @@ module.exports = function(config) {
       'karma-jquery'
     ],
     files: [
-      //'node_modules/chai/chai',
       'src/**/*.tag',
       'src/**/*.js',
       'test/**/*.js'
@@ -24,7 +23,8 @@ module.exports = function(config) {
     reporters: ['mocha'],
     client: {
       mocha: {
-        ui: 'bdd'
+        ui: 'bdd',
+        grep: '',
       },
       chai: {
         includeStack: true

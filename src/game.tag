@@ -1,13 +1,14 @@
 <game>
   <chat/>
-  <action_box/>
+  <action_box />
+  <info_box resources={this.resources}/>
 
   <script>
 
     this.areas = {'main':new Deck(), 'temp':new Deck(),'game':new Deck(), 'hand':new Deck(), 'discard':new Deck()}
-    this.resources = {'pj':new Resource(), 'ally':new Resource(), 'enemy':new Resource()
-                      // 'pj_feature':new Resource(), 'ally_feature':new Resource(), 'enemy_feature':new Resource(),
-                      // 'pj_ally_rel':new Resource(), 'pj_enemy_rel':new Resource(), 'ally_enemy_rel':new Resource()
+    this.resources = {'pj':new Resource(), 'ally':new Resource(), 'enemy':new Resource(),
+                      'pj_feature':new Resource(), 'ally_feature':new Resource(), 'enemy_feature':new Resource(),
+                      'pj_ally_rel':new Resource(), 'pj_enemy_rel':new Resource(), 'ally_enemy_rel':new Resource()
                     }
     this.areas.main = new Deck(defaultDeck) //set default deck to the main place
 
@@ -49,22 +50,35 @@
       }
     }
 
+    this.characterProgress = 0
+    this.characterConditions = 0
+    
     var self = this
-  
+
     riot.actionStore.on('run_action', function(actionName) {
       self.doAction(actionName)
-    })  
-    
+    })
+
     this.doAction = function(actionName, data) {
       switch(actionName) {
         case 'initGame':
          var mainDeck = this.areas.main
          //mainDeck.shuffle()
-         var cards = mainDeck.topCards(5)
+         var newDeck = mainDeck.findByType('Personaje')
+         var cards = newDeck.topCards(5)
          this.moveCardsFromTo('main', 'temp', cards)
-         this.nextActions([{name:'choosePj', label:'Elige el protagonista'}])
+
+         var actions = []
+         for (var i=0; i< cards.length; i++) {
+           actions.push({name:'choosePj', label:cards[i].number+' '+cards[i].text, data:{card:cards[i]}})
+         }
+         riot.actionStore.trigger('add_chat', 'Elige al protagonista')
+         this.nextActions(actions)
+                
          break
-        case 'initGame2':
+        case 'choosePj':
+          var card = data['card']
+          tag.moveFromAreaToResource('temp','pj',card)
           console.log(' action2')
         case 'initGame3':
           console.log(' action2')
@@ -76,6 +90,89 @@
     this.nextActions = function(actions) {
       riot.actionStore.trigger('add_actions', actions)
     }
+    
+    this.selectCharactersFeatures = function() {
+      var characters = ['pj', 'ally', 'enemy']
+      characters.forEach(function(character) {
+        var card = self.areas.main.topCard()
+        var characterFeature = character+'_feature'
+        self.moveFromAreaToResource('main', characterFeature , card)
+      })
+    }
+    
+    this.selectCharactersRelationships = function() {
+      var card = self.areas.main.topCard()
+      self.moveFromAreaToResource('main', 'pj_ally_rel' , card)
+      
+      var card = self.areas.main.topCard()
+      self.moveFromAreaToResource('main', 'pj_enemy_rel' , card)
+      
+      var card = self.areas.main.topCard()
+      self.moveFromAreaToResource('main', 'ally_enemy_rel' , card)            
+    }  
+    
+    this.selectDestinyCards = function() {
+      var cards = self.areas.main.topCards(5)
+      self.moveCardsFromTo('main', 'hand', cards)
+    }      
 
+    this.doMove = function(moveName, data) {
+      switch(moveName) {
+        case 'goal':
+          var myCard = data['myCard']
+          var enemyCard = self.areas.main.topCard()        
+          if (myCard.number < enemyCard.number) {
+            self.characterProgress++
+            riot.actionStore.trigger('add_chat', 'Superado, aumenta tu progreso a '+self.characterProgress)
+          } else {
+            riot.actionStore.trigger('add_chat', 'No superado')
+          }
+          self.moveCardsFromTo('hand', 'discard', myCard)
+          self.moveCardsFromTo('main', 'discard', enemyCard)
+          
+          break
+        case 'attack':
+          var myCard = data['myCard']
+          var enemyResource = data['enemyResource']
+          var enemyCard = tag.resources[enemyResource].card
+          if (myCard.number < enemyCard.number) {      
+            riot.actionStore.trigger('add_chat', 'Triunfas. Tu carta: '+myCard.text+' supera a la carta de tu enemigo: '+enemyCard.text)
+            tag.resources[enemyResource].unset()
+          } else {
+            riot.actionStore.trigger('add_chat', 'Pierdes. Tu carta: '+myCard.text+' pierde ante la carta de tu enemigo: '+enemyCard.text)
+          }
+          self.moveCardsFromTo('hand', 'discard', myCard)
+                  
+          break
+        case 'wait':
+          var enemyCard = self.areas.main.topCard()        
+          riot.actionStore.trigger('add_chat', 'Esperas, pero tu enemigo intenta algo contra ti: '+enemyCard.text)
+          break
+        case 'sacrifice':
+          var resourceName = data['resourceName']
+          var cards = self.areas.main.topCards(2)
+          self.moveCardsFromTo('main', 'hand', cards)
+          riot.actionStore.trigger('add_chat', 'Sacrificas tu recurso: '+tag.resources[resourceName].card.text)
+          riot.actionStore.trigger('add_chat', 'Explica como se pierde para siempre')
+          tag.resources[resourceName].unset()
+          break 
+        case 'reverse':
+          var myCard = data['myCard']
+          var enemyCard = self.areas.main.topCard()        
+          if (myCard.number < enemyCard.number) {
+            riot.actionStore.trigger('add_chat', 'Logras revertir la situación')
+          } else {
+            riot.actionStore.trigger('add_chat', 'No logras revertir la situación, y obtienes otra condición')
+            self.characterConditions++
+            
+          }
+          self.moveCardsFromTo('hand', 'discard', myCard)
+          self.moveCardsFromTo('main', 'discard', enemyCard)        
+          break                       
+        default:
+          console.log('default move')
+          break
+      }
+    }
   </script>
 </game>

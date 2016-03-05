@@ -6,3 +6,7 @@ function Resource() {
 Resource.prototype.set = function set(card) {
   this.card = card
 }
+
+Resource.prototype.unset = function unset() {
+  this.card = {}
+}
