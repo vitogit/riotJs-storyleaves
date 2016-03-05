@@ -49,10 +49,27 @@
       }
     }
 
+    this.cardsToActions = function(cards, actionName) {
+      var actions = []
+      for (var i=0; i< cards.length; i++) {
+        actions.push({name:actionName, label:cards[i].number+' '+cards[i].text, data:{card:cards[i]}})
+      }
+      return actions
+    }
+
+    this.chooseCharacter = function(data, resourceName, nextActionName, characterLabel, nextCharacterLabel ) {
+      var card = data['card']
+      this.moveFromAreaToResource('temp', resourceName ,card)
+      var actions = this.cardsToActions(this.areas.temp.cards, nextActionName)
+      riot.actionStore.trigger('add_chat', 'El '+characterLabel+' es: '+card.text)
+      riot.actionStore.trigger('add_chat', 'Elige a tu '+nextCharacterLabel)
+      this.nextActions(actions)
+    }
+
     var self = this
 
-    riot.actionStore.on('run_action', function(actionName) {
-      self.doAction(actionName)
+    riot.actionStore.on('run_action', function(actionName, data) {
+      self.doAction(actionName, data)
     })
 
     this.doAction = function(actionName, data) {
@@ -63,20 +80,19 @@
          var newDeck = mainDeck.findByType('Personaje')
          var cards = newDeck.topCards(5)
          this.moveCardsFromTo('main', 'temp', cards)
-
-         var actions = []
-         for (var i=0; i< cards.length; i++) {
-           actions.push({name:'choosePj', label:cards[i].number+' '+cards[i].text, data:{card:cards[i]}})
-         }
+         var actions = this.cardsToActions(cards, 'choosePj')
          riot.actionStore.trigger('add_chat', 'Elige al protagonista')
          this.nextActions(actions)
          break
         case 'choosePj':
-          var card = data['card']
-          tag.moveFromAreaToResource('temp','pj',card)
-          console.log(' action2')
-        case 'initGame3':
-          console.log(' action2')
+          this.chooseCharacter(data, 'pj', 'chooseAlly', 'protagonista', 'aliado' )
+          break
+        case 'chooseAlly':
+          this.chooseCharacter(data, 'ally', 'chooseEnemy', 'aliado', 'enemigo' )
+          break
+        case 'chooseEnemy':
+            this.chooseCharacter(data, 'enemy', 'choosePjFeature', 'enemigo', 'caracteristica del pj' )
+            break
         default:
           console.log('default action')
       }
