@@ -22,10 +22,14 @@ chat li {
 .text-box {
   margin-top: 20px;
   border: 1px solid #337ab7;
-  
+
 }
 .action.btn {
   margin: 5px;
+}
+
+.hand.btn {
+  margin: 2px;
 }
 
 .master {
@@ -39,6 +43,10 @@ chat li {
 .text-box {
   height: 50%;
   overflow: auto;
+}
+
+info_box {
+  font-size:12px;
 }
 ol, ul {
     padding:5px

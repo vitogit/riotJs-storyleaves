@@ -73,8 +73,10 @@
       this.moveFromAreaToResource('temp', resourceName ,card)
       var actions = this.cardsToActions(this.areas.temp.cards, nextActionName)
       riot.actionStore.trigger('add_chat', 'El '+characterLabel+' es: '+card.text)
-      riot.actionStore.trigger('add_chat', 'Elige a tu '+nextCharacterLabel)
-      this.nextActions(actions)
+      if (nextCharacterLabel && nextCharacterLabel != '') {
+        riot.actionStore.trigger('add_chat', 'Elige a tu '+nextCharacterLabel)
+        this.nextActions(actions)
+      }
     }
 
     var self = this
@@ -98,13 +100,31 @@
          break
         case 'choosePj':
           this.chooseCharacter(data, 'pj', 'chooseAlly', 'protagonista', 'aliado' )
+          riot.actionStore.trigger('update_resource_info', this.resources)
           break
         case 'chooseAlly':
           this.chooseCharacter(data, 'ally', 'chooseEnemy', 'aliado', 'enemigo' )
+          riot.actionStore.trigger('update_resource_info', this.resources)
           break
         case 'chooseEnemy':
-            this.chooseCharacter(data, 'enemy', 'choosePjFeature', 'enemigo', 'caracteristica del pj' )
-            break
+          this.chooseCharacter(data, 'enemy', 'choosePjFeature', 'enemigo')
+          riot.actionStore.trigger('update_resource_info', this.resources)
+          riot.actionStore.trigger('add_chat', 'A continuacion se generararn las relaciones y caracteristicas de los personajes')
+          this.doAction('generateResources')
+          break
+        case 'generateResources':
+          this.selectCharactersFeatures()
+          this.selectCharactersRelationships()
+          riot.actionStore.trigger('update_resource_info', this.resources)
+          riot.actionStore.trigger('add_chat', 'Elige nombres para los personajes y escribe una breve historia sobre el objetivo del protagonista y como el antagonista lo quiere detener.')
+          riot.actionStore.trigger('add_chat', 'Utiliza las caracteristicas y relaciones de los personajes en la historia.')
+          this.nextActions([{name:'chooseDestinyCards', label:'Tomar cartas de destino.'}])
+        case 'chooseDestinyCards':
+          riot.actionStore.trigger('add_chat', 'Ahora tienes 5 cartas de destino. Estaran en tu mano y las podras usar a lo largo del juego.')
+          this.selectDestinyCards()
+          riot.actionStore.trigger('update_hand_info', this.areas.hand.cards)
+
+          break
         default:
           console.log('default action')
       }
