@@ -19,6 +19,10 @@ chat li {
   list-style-type: none;
 }
 
+.left {
+  padding-left: 0; 
+  padding-top: 19px;  
+}
 .text-box {
   margin-top: 20px;
   border: 1px solid #337ab7;
@@ -48,6 +52,24 @@ chat li {
 info_box {
   font-size:12px;
 }
+
+info_box li {
+}
+
+.list-group-item-heading {
+  color: #31708f;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.panel-title {
+  font-size:14px;
+}
+.panel-body {
+    padding: 0 5px;
+}
+
 ol, ul {
-    padding:5px
+    padding:5px;
+    margin-bottom: 0;    
 }
