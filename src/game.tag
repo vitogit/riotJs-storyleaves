@@ -47,6 +47,7 @@
                     {number:3, description:'third phase'},
                     {number:4, description:'fourth phase'}
     ]
+    this.currentAction = ''
 
     this.currentPhase = 0
 
@@ -59,7 +60,9 @@
 
     this.characterProgress = 0
     this.characterConditions = 0
-
+    this.moveActions = [new Action('action_goal', 'Perseguir objetivo'), new Action('action_attack', 'Atacar enemigo'), new Action('action_wait', 'Esperar'),
+                        new Action('action_sacrifice', 'Sacrificar recurso'), new Action('action_reverse', 'Revertir situación')]
+    
     this.cardsToActions = function(cards, actionName) {
       var actions = []
       for (var i=0; i< cards.length; i++) {
@@ -84,6 +87,18 @@
     riot.actionStore.on('run_action', function(actionName, data) {
       self.doAction(actionName, data)
     })
+    
+    riot.actionStore.on('card_selected', function(card) {
+      console.log('current________'+self.currentAction)
+      var data = {myCard:card}
+      switch(self.currentAction) {
+        case 'action_goal':
+          self.doMove('goal', data)
+          break   
+        default:
+          console.log('default selectedcard')
+      }
+    })    
 
     this.doAction = function(actionName, data) {
       switch(actionName) {
@@ -123,8 +138,13 @@
           riot.actionStore.trigger('add_chat', 'Ahora tienes 5 cartas de destino. Estaran en tu mano y las podras usar a lo largo del juego.')
           this.selectDestinyCards()
           riot.actionStore.trigger('update_hand_info', this.areas.hand.cards)
-
+          this.nextActions(this.moveActions)
           break
+        case 'action_goal':
+          riot.actionStore.trigger('add_chat', 'Elige la carta de tu mano, y escribe como persigues tu objetivo con ella. Deja la historia abierta porque el enemigo puede detenerte.')
+          self.currentAction = 'action_goal'
+          this.nextActions([])
+          break          
         default:
           console.log('default action')
       }
@@ -162,16 +182,24 @@
     this.doMove = function(moveName, data) {
       switch(moveName) {
         case 'goal':
-          var myCard = data['myCard']
+          var myCard = data.myCard
+
           var enemyCard = self.areas.main.topCard()
+          riot.actionStore.trigger('add_chat', 'La carta del enemigo es '+enemyCard.fullText())
+          riot.actionStore.trigger('add_chat', 'Tu carta es '+myCard.fullText())
+          
           if (myCard.number < enemyCard.number) {
             self.characterProgress++
-            riot.actionStore.trigger('add_chat', 'Superado, aumenta tu progreso a '+self.characterProgress)
+            riot.actionStore.trigger('add_chat', 'Superado, tu progreso aumenta a '+self.characterProgress)
+            riot.actionStore.trigger('add_chat', 'Escribe como avanzas hacia tu objetivo utilizando la carta como inspiración.')      
           } else {
             riot.actionStore.trigger('add_chat', 'No superado')
           }
           self.moveCardsFromTo('hand', 'discard', myCard)
           self.moveCardsFromTo('main', 'discard', enemyCard)
+          riot.actionStore.trigger('update_hand_info', this.areas.hand.cards)
+          this.nextActions(this.moveActions)
+          self.currentAction = ''
 
           break
         case 'attack':

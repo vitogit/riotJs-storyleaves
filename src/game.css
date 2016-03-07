@@ -26,7 +26,7 @@ chat li {
 .text-box {
   margin-top: 20px;
   border: 1px solid #337ab7;
-
+  padding-bottom: 15px;
 }
 .action.btn {
   margin: 5px;

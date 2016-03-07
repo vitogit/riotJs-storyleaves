@@ -3,7 +3,7 @@
   <div class="panel panel-info hand_box">
     <div class="panel-heading"><h4 class="panel-title">Mano</h4></div>   
     <div class="panel-body">
-      <div class="hand btn btn-info btn-xs" each={card in cards}>
+      <div class="hand btn btn-info btn-xs" each={card in cards} onclick={selectCard}>
         {card.number} - {card.text}
       </div>
     </div>
@@ -28,7 +28,7 @@
         <li riot-tag="list-group-item" header="La relacion Enemigo - Aliado" text={this.resources['pj_enemy_rel'].card.text}></li>
         <li riot-tag="list-group-item" header="La relación Enemigo - Protagonista" text={this.resources['ally_enemy_rel'].card.text}></li>
       </ul>
-    </div>      
+    </div>
   </div>
 
   <div class="panel panel-info characters_box"> 
@@ -38,7 +38,7 @@
         <li riot-tag="list-group-item" header="Protagonista" text={this.resources['pj'].card.text.replace('Personaje:','')}></li>
         <li riot-tag="list-group-item" header="Aliado" text={this.resources['ally'].card.text.replace('Personaje:','')}></li>
         <li riot-tag="list-group-item" header="Enemigo" text={this.resources['enemy'].card.text.replace('Personaje:','')}></li>
-      </ul>  
+      </ul>
     </div>
   </div>
 
@@ -47,6 +47,12 @@
 
     this.resources = opts.resources || []
     this.cards = opts.cards || []
+    this.selectedCard = {}
+    
+    this.selectCard = function(event) {
+      this.selectedCard = event.item.card
+      riot.actionStore.trigger('card_selected', this.selectedCard)
+    }
 
     var self = this
 
