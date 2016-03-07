@@ -34,23 +34,14 @@
   </div>
 
   <div class="panel panel-info hand_box">
-    <div class="panel-heading"><h4 class="panel-title">Mano</h4></div> 
-    
+    <div class="panel-heading"><h4 class="panel-title">Mano</h4></div>   
     <div class="panel-body">
-      
       <div class="hand btn btn-info btn-xs" each={card in cards}>
         {card.number} - {card.text}
       </div>
     </div>
 
   </div>
-
-
-  <!-- <div class="resources_box">
-    <div class="resource" each={key in Object.keys(resources)}>
-      {key} : {resources[key].card.text}
-    </div>
-  </div> -->
 
   <script>
 
@@ -63,7 +54,6 @@
     })
 
     riot.actionStore.on('update_resource_info', function(resources) {
-      console.log('update____')
       self.resources = resources
       self.update()
     })
