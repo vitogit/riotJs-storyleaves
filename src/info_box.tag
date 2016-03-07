@@ -3,10 +3,10 @@
   <div class="panel panel-info characters_box"> 
     <div class="panel-heading"><h4 class="panel-title">Personajes</h4></div> 
     <div class="panel-body">
-      <ul class="list-unstyled">
-        <li>Protagonista : {this.resources['pj'].card.text.replace('Personaje:','')}</li>
-        <li>Aliado : {this.resources['ally'].card.text.replace('Personaje:','')}</li>
-        <li>Enemigo : {this.resources['enemy'].card.text.replace('Personaje:','')}</li>
+      <ul class="list-group">
+        <li riot-tag="list-group-item" header="Protagonista" text={this.resources['pj'].card.text.replace('Personaje:','')}></li>
+        <li riot-tag="list-group-item" header="Aliado" text={this.resources['ally'].card.text.replace('Personaje:','')}></li>
+        <li riot-tag="list-group-item" header="Enemigo" text={this.resources['enemy'].card.text.replace('Personaje:','')}></li>
       </ul>  
     </div>
   </div>
@@ -15,18 +15,9 @@
     <div class="panel-heading"><h4 class="panel-title">Recursos Protagonista</h4></div> 
     <div class="panel-body">
       <ul class="list-group">
-        <li class="list-group-item">
-          <h5 class="list-group-item-heading">Caracteristica del protagonista</h5>
-          <p class="list-group-item-text">{this.resources['pj_feature'].card.text}</p>
-        </li>
-        <li class="list-group-item">
-          <h5 class="list-group-item-heading">La caracteristica del Aliado</h5>
-          <p class="list-group-item-text">{this.resources['ally_feature'].card.text}</p>
-        </li>
-        <li class="list-group-item" >
-          <h5 class="list-group-item-heading">La relación con el Aliado</h5>
-          <p class="list-group-item-text">{this.resources['pj_ally_rel'].card.text}</p>          
-        </li>
+        <li riot-tag="list-group-item" header="Caracteristica del protagonista" text={this.resources['pj_feature'].card.text}></li>
+        <li riot-tag="list-group-item" header="La caracteristica del Aliado" text={this.resources['ally_feature'].card.text}></li>
+        <li riot-tag="list-group-item" header="La relación con el Aliado" text={this.resources['pj_ally_rel'].card.text}></li>
       </ul>
     </div>
   </div>
@@ -34,11 +25,10 @@
   <div class="panel panel-info enemy_resources_box">
     <div class="panel-heading"><h4 class="panel-title">Recursos Enemigo</h4></div> 
     <div class="panel-body">
-    
       <ul class="list-unstyled">
-        <li>Caracteristica enemigo : {this.resources['pj_feature'].card.text}</li>
-        <li>La relacion Enemigo - Aliado : {this.resources['pj_enemy_rel'].card.text}</li>
-        <li>La relación Enemigo - Protagonista : {this.resources['ally_enemy_rel'].card.text}</li>
+        <li riot-tag="list-group-item" header="Caracteristica enemigo" text={this.resources['pj_feature'].card.text}></li>
+        <li riot-tag="list-group-item" header="La relacion Enemigo - Aliado" text={this.resources['pj_enemy_rel'].card.text}></li>
+        <li riot-tag="list-group-item" header="La relación Enemigo - Protagonista" text={this.resources['ally_enemy_rel'].card.text}></li>
       </ul>
     </div>      
   </div>
