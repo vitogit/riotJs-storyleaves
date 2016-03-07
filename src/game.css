@@ -56,12 +56,18 @@ info_box {
 info_box li {
 }
 
+.list-group {
+  margin-bottom: 0; 
+}
 .list-group-item-heading {
   color: #31708f;
   font-size: 12px;
   font-weight: bold;
 }
 
+.panel {
+  margin-bottom: 5px;
+}
 .panel-title {
   font-size:14px;
 }

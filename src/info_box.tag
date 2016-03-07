@@ -1,13 +1,11 @@
 <info_box >
   
-  <div class="panel panel-info characters_box"> 
-    <div class="panel-heading"><h4 class="panel-title">Personajes</h4></div> 
+  <div class="panel panel-info hand_box">
+    <div class="panel-heading"><h4 class="panel-title">Mano</h4></div>   
     <div class="panel-body">
-      <ul class="list-group">
-        <li riot-tag="list-group-item" header="Protagonista" text={this.resources['pj'].card.text.replace('Personaje:','')}></li>
-        <li riot-tag="list-group-item" header="Aliado" text={this.resources['ally'].card.text.replace('Personaje:','')}></li>
-        <li riot-tag="list-group-item" header="Enemigo" text={this.resources['enemy'].card.text.replace('Personaje:','')}></li>
-      </ul>  
+      <div class="hand btn btn-info btn-xs" each={card in cards}>
+        {card.number} - {card.text}
+      </div>
     </div>
   </div>
 
@@ -33,15 +31,17 @@
     </div>      
   </div>
 
-  <div class="panel panel-info hand_box">
-    <div class="panel-heading"><h4 class="panel-title">Mano</h4></div>   
+  <div class="panel panel-info characters_box"> 
+    <div class="panel-heading"><h4 class="panel-title">Personajes</h4></div> 
     <div class="panel-body">
-      <div class="hand btn btn-info btn-xs" each={card in cards}>
-        {card.number} - {card.text}
-      </div>
+      <ul class="list-group">
+        <li riot-tag="list-group-item" header="Protagonista" text={this.resources['pj'].card.text.replace('Personaje:','')}></li>
+        <li riot-tag="list-group-item" header="Aliado" text={this.resources['ally'].card.text.replace('Personaje:','')}></li>
+        <li riot-tag="list-group-item" header="Enemigo" text={this.resources['enemy'].card.text.replace('Personaje:','')}></li>
+      </ul>  
     </div>
-
   </div>
+
 
   <script>
 
