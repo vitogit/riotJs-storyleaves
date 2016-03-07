@@ -149,7 +149,7 @@ describe('Game spec', function() {
         it('return 5 character cards', function() {
           var cardCounter = 0
           tag.areas.temp.cards.forEach(function(card){
-              if (card.type == 'Personaje') {
+              if (card.cardType == 'Personaje') {
                 cardCounter++
               }
           })
@@ -227,8 +227,8 @@ describe('Game spec', function() {
       describe('Movements', function() {
 
         it('run move: pursue goal (and succeed)', function() {
-          var myCard = {number:1, text:'Aspecto: my card'}
-          var enemyCard = {number:5, text:'Aspecto:enemy card'}
+          var myCard = new Card(1,'Aspecto:my card')
+          var enemyCard = new Card(5,'Aspecto:enemy card')
           tag.loadArea('hand', [myCard])
           tag.areas.main.cards = [enemyCard]
           // sinon.mock(tag.areas.main).expects("topCard").returns(enemyCard) also could work with a mock
@@ -237,7 +237,7 @@ describe('Game spec', function() {
           expect(tag.areas.hand.cards).to.have.lengthOf(0)
           expect(tag.characterProgress).to.be.eq(1)
           expect(tag.areas.discard.cards).to.have.lengthOf(2)
-          expect(tag.tags.chat.messages).to.have.lengthOf(1)
+          expect(tag.tags.chat.messages).to.have.lengthOf(3)
         })   
         
         it('run move: attack enemy', function() {

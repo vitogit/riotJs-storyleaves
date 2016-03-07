@@ -17,7 +17,8 @@ Deck.prototype.initCards = function initCards(arrayCards) {
         cardType = type
       }
     })
-  	cards.push({number:i+1, text: cardText, type:cardType});
+    var card = new Card(i+1,cardText, cardType)
+  	cards.push(card)
   }
   return cards
 }
@@ -25,7 +26,7 @@ Deck.prototype.initCards = function initCards(arrayCards) {
 Deck.prototype.findByType = function findByType(varType) {
   var mapTypeCards = {};
   for (var i=0; i< this.cards.length ; i++) {
-    var cardType = this.cards[i].type
+    var cardType = this.cards[i].cardType
 
     if (!mapTypeCards[cardType]) {
       mapTypeCards[cardType] = []

@@ -15,10 +15,7 @@ describe('Deck spec', function() {
     })
 
     it('get the top 2 cards', function() {
-      var cards = [{number:1, text:'card1'},
-              {number:2, text:'card2'},
-              {number:3, text:'card3'}
-      ]
+      var cards = [new Card(1,'card1'),new Card(2,'card2'),new Card(3,'card3')]
       deck.load(cards)
       var topCards = deck.topCards(2)
       expect(topCards).to.have.lengthOf(2)
@@ -30,10 +27,7 @@ describe('Deck spec', function() {
     })
 
     it('get top card', function() {
-      var cards = [{number:1, text:'card1'},
-              {number:2, text:'card2'},
-              {number:3, text:'card3'}
-      ]
+      var cards = [new Card(1,'card1'),new Card(2,'card2'),new Card(3,'card3')]
       deck.load(cards)
       var topCard = deck.topCard()
       expect(topCard).to.be.eq(cards[0])
@@ -112,8 +106,8 @@ describe('Deck spec', function() {
       expect(deck.cards[1].number).to.be.eq(2)
       expect(deck.cards[0].text).to.be.eq(cardArray[0])
       expect(deck.cards[1].text).to.be.eq(cardArray[1])
-      expect(deck.cards[0].type).to.be.eq('Personaje')
-      expect(deck.cards[1].type).to.be.eq('Lugar')
+      expect(deck.cards[0].cardType).to.be.eq('Personaje')
+      expect(deck.cards[1].cardType).to.be.eq('Lugar')
     })
 
     it('select card by type', function() {
