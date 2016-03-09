@@ -119,9 +119,11 @@
     
     this.resetState = function() {
       this.nextActions(this.moveActions)
-      self.currentAction = ''  
+      self.currentAction = '' 
       this.selectedCard = {}
-      this.selectedEnemyResource = ''          
+      this.selectedEnemyResource = ''
+      riot.actionStore.trigger('update_hand_info', this.areas.hand.cards)
+      riot.actionStore.trigger('update_resource_info', this.resources)
     }
     
     this.selectedCard = {}
@@ -208,7 +210,13 @@
           riot.actionStore.trigger('add_chat', 'Escribe como atacas ese recurso y como afecta a tu enemigo.')
           self.currentAction = 'action_attack'
           this.nextActions([])
-          break                      
+          break 
+        case 'action_wait':
+          riot.actionStore.trigger('add_chat', 'Esperas. Obtienes una nueva carta en tu mano pero tu enemigo ataca directamente')
+          self.currentAction = 'action_wait'
+          self.doMove('wait')
+          this.nextActions(this.moveActions)
+          break
         default:
           console.log('default action')
       }
@@ -225,19 +233,20 @@
           if (myCard.number < enemyCard.number) {
             self.characterProgress++
             riot.actionStore.trigger('add_chat', 'Superado, tu progreso aumenta a '+self.characterProgress)
-            riot.actionStore.trigger('add_chat', 'Escribe como avanzas hacia tu objetivo utilizando la carta como inspiración.')      
+            riot.actionStore.trigger('add_chat', 'Escribe como avanzas hacia tu objetivo utilizando la carta como inspiración.')   
+            riot.actionStore.trigger('update_characterProgress', self.characterProgress)
+               
           } else {
             riot.actionStore.trigger('add_chat', 'No superado')
           }
           self.moveCardsFromTo('hand', 'discard', myCard)
-          self.moveCardsFromTo('main', 'discard', enemyCard)
-          riot.actionStore.trigger('update_hand_info', this.areas.hand.cards)
+          self.moveCardsFromTo('main', 'discard', enemyCard)    
+           
           self.resetState()
           break
         case 'attack':
           var myCard = self.selectedCard
           var enemyResource = self.selectedEnemyResource
-          console.log("enemyResource________"+enemyResource)
           var enemyCard = self.resources[enemyResource].card
           if (myCard.number < enemyCard.number) {
             riot.actionStore.trigger('add_chat', 'Triunfas. Tu carta: '+myCard.text+' supera a la carta de tu enemigo: '+enemyCard.text)
@@ -246,12 +255,21 @@
             riot.actionStore.trigger('add_chat', 'Pierdes. Tu carta: '+myCard.text+' pierde ante la carta de tu enemigo: '+enemyCard.text)
           }
           self.moveCardsFromTo('hand', 'discard', myCard)
-          riot.actionStore.trigger('update_resource_info', this.resources)          
           self.resetState()
           break
         case 'wait':
+          var newCard = self.areas.main.topCard()
+          self.moveCardsFromTo('main', 'hand', newCard)
           var enemyCard = self.areas.main.topCard()
-          riot.actionStore.trigger('add_chat', 'Esperas, pero tu enemigo intenta algo contra ti: '+enemyCard.text)
+          self.moveCardsFromTo('main', 'discard', enemyCard)
+          
+          self.characterConditions++
+          riot.actionStore.trigger('update_characterConditions', self.characterConditions)
+          
+          riot.actionStore.trigger('add_chat', 'Tu enemigo te ataca directamente usando: '+enemyCard.text)
+          riot.actionStore.trigger('add_chat', 'Escribe una nueva condicion para tu personaje. Tus condiciones aumentan a: '+self.characterConditions)
+
+          self.resetState()
           break
         case 'sacrifice':
           var resourceName = data['resourceName']
