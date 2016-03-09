@@ -66,7 +66,8 @@
     this.characterConditions = 0
     this.moveActions = [new Action('action_goal', 'Perseguir objetivo'), new Action('action_attack', 'Atacar enemigo'), new Action('action_wait', 'Esperar'),
                         new Action('action_sacrifice', 'Sacrificar recurso'), new Action('action_reverse', 'Revertir situación')]
-    
+
+    this.enemyActions = [new Action('action_enemy_turn', 'Turno del enemigo')]
     this.cardsToActions = function(cards, actionName) {
       var actions = []
       for (var i=0; i< cards.length; i++) {
@@ -112,9 +113,7 @@
 
     this.selectDestinyCards = function() {
       var cards = self.areas.main.topCards(5)
-      self.moveCardsFromTo('main', 'hand', cards)
-      self.moveCardsFromTo('main', 'hand', self.resources.pj.card)
-      
+      self.moveCardsFromTo('main', 'hand', cards)    
     }
     
     this.resetState = function() {
@@ -128,6 +127,7 @@
     
     this.selectedCard = {}
     this.selectedEnemyResource = ''
+    this.selectedPjResource = ''
     var self = this
 
     riot.actionStore.on('run_action', function(actionName, data) {
@@ -139,7 +139,14 @@
         self.selectedEnemyResource = resourceName
         riot.actionStore.trigger('add_chat', 'Recurso enemigo seleccionado.')    
       }
-    })  
+    }) 
+     
+    riot.actionStore.on('pj_resource_selected', function(resourceName) {
+      if (self.currentAction == 'action_sacrifice') {
+        self.selectedPjResource = resourceName
+        self.doMove('sacrifice')   
+      }
+    })     
     
     riot.actionStore.on('card_selected', function(card) {
       self.selectedCard = card
@@ -217,6 +224,15 @@
           self.doMove('wait')
           this.nextActions(this.moveActions)
           break
+        case 'action_sacrifice':
+          riot.actionStore.trigger('add_chat', 'Elige el recurso que quieres sacrificar y escribe como se pierde para siempre. Gracias a esto obtendras dos cartas.')
+          self.currentAction = 'action_sacrifice'
+          this.nextActions([])
+          break
+        case 'action_enemy_turn':
+          riot.actionStore.trigger('add_chat', 'Turno enemigo')
+
+          break          
         default:
           console.log('default action')
       }
@@ -272,12 +288,16 @@
           self.resetState()
           break
         case 'sacrifice':
-          var resourceName = data['resourceName']
+          var resourceName = self.selectedPjResource
+          console.log("resourceName________"+resourceName)
           var cards = self.areas.main.topCards(2)
           self.moveCardsFromTo('main', 'hand', cards)
-          riot.actionStore.trigger('add_chat', 'Sacrificas tu recurso: '+tag.resources[resourceName].card.text)
+          riot.actionStore.trigger('add_chat', 'Sacrificas tu recurso: '+self.resources[resourceName].card.text)
           riot.actionStore.trigger('add_chat', 'Explica como se pierde para siempre')
-          tag.resources[resourceName].unset()
+          self.resources[resourceName].unset()
+          self.resetState()
+          self.doAction('action_enemy_turn')
+          
           break
         case 'reverse':
           var myCard = data['myCard']

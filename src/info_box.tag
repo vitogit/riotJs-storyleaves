@@ -24,9 +24,9 @@
     <div class="panel-heading"><h4 class="panel-title">Recursos Protagonista</h4></div> 
     <div class="panel-body">
       <ul class="list-group">
-        <li riot-tag="list-group-item" header="Caracteristica del protagonista" text={this.resources['pj_feature'].card.fullText()}></li>
-        <li riot-tag="list-group-item" header="La caracteristica del Aliado" text={this.resources['ally_feature'].card.fullText()}></li>
-        <li riot-tag="list-group-item" header="La relación con el Aliado" text={this.resources['pj_ally_rel'].card.fullText()}></li>
+        <li riot-tag="list-group-item" header="Caracteristica del protagonista" text={this.resources['pj_feature'].card.fullText()} data-resource="pj_feature" onclick={selectPjResource}></li>
+        <li riot-tag="list-group-item" header="La caracteristica del Aliado" text={this.resources['ally_feature'].card.fullText()} data-resource="ally_feature" onclick={selectPjResource}></li>
+        <li riot-tag="list-group-item" header="La relación con el Aliado" text={this.resources['pj_ally_rel'].card.fullText()} data-resource="pj_ally_rel" onclick={selectPjResource}></li>
       </ul>
     </div>
   </div>
@@ -45,10 +45,17 @@
     
     this.selectEnemyResource = function(event) {
       var resourceName = event.currentTarget.dataset.resource
-      if (resourceName) {
+      if (this.resources[resourceName].card) {
         riot.actionStore.trigger('enemy_resource_selected', resourceName)
       }
-    }    
+    } 
+    
+    this.selectPjResource = function(event) {
+      var resourceName = event.currentTarget.dataset.resource
+      if (this.resources[resourceName].card) {
+        riot.actionStore.trigger('pj_resource_selected', resourceName)
+      }
+    }        
 
     var self = this
 
