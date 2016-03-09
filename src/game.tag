@@ -1,11 +1,15 @@
 <game>
 
-  <div class="left col-md-4">
+  <div class="left col-md-3">
     <info_box resources={this.resources}/>
   </div>
-  <div class="right col-md-8">
+  <div class="center col-md-6">
     <chat/>
     <action_box />
+  </div>
+  
+  <div class="right col-md-3">
+    <info_right_box/>
   </div>
 
 
@@ -148,7 +152,7 @@
             riot.actionStore.trigger('add_chat', 'Selecciona el recurso enemigo primero y luego la carta.')    
           }
 
-          break            
+          break
         default:
           console.log('default selectedcard')
       }

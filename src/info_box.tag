@@ -5,18 +5,7 @@
     <div class="panel-body">
       <div class="hand btn btn-info btn-xs" each={card in cards} onclick={selectCard}>
         {card.fullText()}
-      </div>
-    </div>
-  </div>
-
-  <div class="panel panel-info my_resources_box">
-    <div class="panel-heading"><h4 class="panel-title">Recursos Protagonista</h4></div> 
-    <div class="panel-body">
-      <ul class="list-group">
-        <li riot-tag="list-group-item" header="Caracteristica del protagonista" text={this.resources['pj_feature'].card.fullText()}></li>
-        <li riot-tag="list-group-item" header="La caracteristica del Aliado" text={this.resources['ally_feature'].card.fullText()}></li>
-        <li riot-tag="list-group-item" header="La relación con el Aliado" text={this.resources['pj_ally_rel'].card.fullText()}></li>
-      </ul>
+      </div> 
     </div>
   </div>
 
@@ -31,18 +20,17 @@
     </div>
   </div>
 
-  <div class="panel panel-info characters_box"> 
-    <div class="panel-heading"><h4 class="panel-title">Personajes</h4></div> 
+  <div class="panel panel-info my_resources_box">
+    <div class="panel-heading"><h4 class="panel-title">Recursos Protagonista</h4></div> 
     <div class="panel-body">
       <ul class="list-group">
-        <li riot-tag="list-group-item" header="Protagonista" text={this.resources['pj'].card.text.replace('Personaje:','')}></li>
-        <li riot-tag="list-group-item" header="Aliado" text={this.resources['ally'].card.text.replace('Personaje:','')}></li>
-        <li riot-tag="list-group-item" header="Enemigo" text={this.resources['enemy'].card.text.replace('Personaje:','')}></li>
+        <li riot-tag="list-group-item" header="Caracteristica del protagonista" text={this.resources['pj_feature'].card.fullText()}></li>
+        <li riot-tag="list-group-item" header="La caracteristica del Aliado" text={this.resources['ally_feature'].card.fullText()}></li>
+        <li riot-tag="list-group-item" header="La relación con el Aliado" text={this.resources['pj_ally_rel'].card.fullText()}></li>
       </ul>
     </div>
   </div>
-
-
+  
   <script>
 
     this.resources = opts.resources || []
@@ -76,5 +64,6 @@
       self.cards = cards
       self.update()
     })
+    
   </script>
 </info_box>
