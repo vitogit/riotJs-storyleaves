@@ -5,5 +5,5 @@ function Card(number, text, type) {
 }
 
 Card.prototype.fullText = function fullText() {
-  return this.number+' '+this.text
+  return this.number+' - '+this.text
 }
