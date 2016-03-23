@@ -68,3 +68,17 @@ Deck.prototype.unload = function unload(cards) {
     })
   }
 }
+
+Deck.prototype.shuffle = function(seed){
+		Math.seedrandom(seed)
+    var counter = this.cards.length, temp, index
+
+    while (counter > 0) {
+        index = Math.floor(Math.random() * counter)
+        counter--
+        temp = this.cards[counter]
+        this.cards[counter] = this.cards[index]
+        this.cards[index] = temp
+    }
+    return this.cards;
+}

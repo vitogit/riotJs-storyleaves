@@ -14,7 +14,8 @@ module.exports = function(config) {
     files: [
       'src/**/*.tag',
       'src/**/*.js',
-      'test/**/*.js'
+      'test/**/*.js',
+      'vendor/**/*.js'
     ],
     preprocessors: {
       '**/*.tag': ['riot']

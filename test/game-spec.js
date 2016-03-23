@@ -232,40 +232,41 @@ describe('Game spec', function() {
           tag.loadArea('hand', [myCard])
           tag.areas.main.cards = [enemyCard]
           // sinon.mock(tag.areas.main).expects("topCard").returns(enemyCard) also could work with a mock
-          var data = {myCard: myCard}
-          tag.doMove('goal', data)
+          tag.selectedCard = myCard
+          tag.doMove('goal')
           expect(tag.areas.hand.cards).to.have.lengthOf(0)
           expect(tag.characterProgress).to.be.eq(1)
           expect(tag.areas.discard.cards).to.have.lengthOf(2)
-          expect(tag.tags.chat.messages).to.have.lengthOf(3)
-        })   
-        
+          expect(tag.tags.chat.messages).to.have.lengthOf(4)
+        })
+
         it('run move: attack enemy', function() {
           var myCard = {number:1, text:'Aspecto: my card'}
           var enemyResourceCard = {number:5, text:'Aspecto:enemy card'}
           tag.loadArea('hand', [myCard])
           tag.resources.enemy_feature.card = enemyResourceCard
-          var data = {myCard: myCard, enemyResource: 'enemy_feature'}
-          tag.doMove('attack', data)
+          tag.selectedCard = myCard
+          tag.selectedEnemyResource = 'enemy_feature'
+          tag.doMove('attack')
           expect(tag.areas.hand.cards).to.have.lengthOf(0)
           expect(tag.resources.enemy_feature.card.text).to.be.undefined
           expect(tag.tags.chat.messages).to.have.lengthOf(1)
-          
-        }) 
-        
+
+        })
+
         it('run move: wait', function() {
           tag.doMove('wait')
-          expect(tag.tags.chat.messages).to.have.lengthOf(1)
-        }) 
-        
+          expect(tag.tags.chat.messages).to.have.lengthOf(2)
+        })
+
         it('run move: sacrifice resource', function() {
-          var data = {resourceName: 'pj_feature'}
-          tag.doMove('sacrifice', data)
+          tag.selectedPjResource = 'pj_feature'
+          tag.doMove('sacrifice')
           expect(tag.resources.pj_feature.card.text).to.be.undefined
           expect(tag.areas.hand.cards).to.have.lengthOf(2)
-          expect(tag.tags.chat.messages).to.have.lengthOf(2)
-        }) 
-        
+          expect(tag.tags.chat.messages).to.have.lengthOf(3)
+        })
+
         it('run move: reverse condition (and lost)', function() {
           var myCard = {number:10, text:'Aspecto: my 10 card'}
           var enemyCard = {number:5, text:'Aspecto:enemy card'}

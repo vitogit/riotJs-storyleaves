@@ -117,6 +117,12 @@ describe('Deck spec', function() {
       expect(newDeck.cards).to.have.lengthOf(1)
       expect(newDeck.cards[0].text).to.be.eq(cardArray[0])
     })
+
+    it('it shuffle the cards using a seed', function() {
+      deck.shuffle('thisistheseed')
+      expect(deck.cards[0].number).to.eql(2)
+      expect(deck.cards[1].number).to.eql(1)
+    })
   })
 
 })
