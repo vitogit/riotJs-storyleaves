@@ -7,7 +7,7 @@
     <chat/>
     <action_box />
   </div>
-  
+
   <div class="right col-md-3">
     <info_right_box/>
   </div>
@@ -113,18 +113,18 @@
 
     this.selectDestinyCards = function() {
       var cards = self.areas.main.topCards(5)
-      self.moveCardsFromTo('main', 'hand', cards)    
+      self.moveCardsFromTo('main', 'hand', cards)
     }
-    
+
     this.resetState = function() {
       this.nextActions(this.moveActions)
-      self.currentAction = '' 
+      self.currentAction = ''
       this.selectedCard = {}
       this.selectedEnemyResource = ''
       riot.actionStore.trigger('update_hand_info', this.areas.hand.cards)
       riot.actionStore.trigger('update_resource_info', this.resources)
     }
-    
+
     this.selectedCard = {}
     this.selectedEnemyResource = ''
     this.selectedPjResource = ''
@@ -133,45 +133,45 @@
     riot.actionStore.on('run_action', function(actionName, data) {
       self.doAction(actionName, data)
     })
-    
+
     riot.actionStore.on('enemy_resource_selected', function(resourceName) {
       if (self.currentAction == 'action_attack') {
         self.selectedEnemyResource = resourceName
-        riot.actionStore.trigger('add_chat', 'Recurso enemigo seleccionado.')    
+        riot.actionStore.trigger('add_chat', 'Recurso enemigo seleccionado.')
       }
-    }) 
-     
+    })
+
     riot.actionStore.on('pj_resource_selected', function(resourceName) {
       if (self.currentAction == 'action_sacrifice') {
         self.selectedPjResource = resourceName
-        self.doMove('sacrifice')   
+        self.doMove('sacrifice')
       }
-    })     
-    
+    })
+
     riot.actionStore.on('card_selected', function(card) {
       self.selectedCard = card
       switch(self.currentAction) {
         case 'action_goal':
           self.doMove('goal')
-          break  
+          break
         case 'action_attack':
           if (self.selectedEnemyResource) {
             self.doMove('attack')
           } else {
-            riot.actionStore.trigger('add_chat', 'Selecciona el recurso enemigo primero y luego la carta.')    
+            riot.actionStore.trigger('add_chat', 'Selecciona el recurso enemigo primero y luego la carta.')
           }
 
           break
         default:
           console.log('default selectedcard')
       }
-    })         
+    })
 
     this.doAction = function(actionName, data) {
       switch(actionName) {
         case 'initGame':
          var mainDeck = this.areas.main
-         //mainDeck.shuffle()
+         mainDeck.shuffle()
          var newDeck = mainDeck.findByType('Personaje')
          var cards = newDeck.topCards(5)
          this.moveCardsFromTo('main', 'temp', cards)
@@ -211,13 +211,13 @@
           riot.actionStore.trigger('add_chat', 'Elige la carta de tu mano, y escribe como persigues tu objetivo con ella. Deja la historia abierta porque el enemigo puede detenerte.')
           self.currentAction = 'action_goal'
           this.nextActions([])
-          break 
+          break
         case 'action_attack':
           riot.actionStore.trigger('add_chat', 'Elige un recurso de tu enemigo que quieres atacar y una carta de tu mano (debe ser menor al recurso).')
           riot.actionStore.trigger('add_chat', 'Escribe como atacas ese recurso y como afecta a tu enemigo.')
           self.currentAction = 'action_attack'
           this.nextActions([])
-          break 
+          break
         case 'action_wait':
           riot.actionStore.trigger('add_chat', 'Esperas. Obtienes una nueva carta en tu mano pero tu enemigo ataca directamente')
           self.currentAction = 'action_wait'
@@ -232,7 +232,7 @@
         case 'action_enemy_turn':
           riot.actionStore.trigger('add_chat', 'Turno enemigo')
 
-          break          
+          break
         default:
           console.log('default action')
       }
@@ -245,19 +245,19 @@
           var enemyCard = self.areas.main.topCard()
           riot.actionStore.trigger('add_chat', 'La carta del enemigo es '+enemyCard.fullText())
           riot.actionStore.trigger('add_chat', 'Tu carta es '+myCard.fullText())
-          
+
           if (myCard.number < enemyCard.number) {
             self.characterProgress++
             riot.actionStore.trigger('add_chat', 'Superado, tu progreso aumenta a '+self.characterProgress)
-            riot.actionStore.trigger('add_chat', 'Escribe como avanzas hacia tu objetivo utilizando la carta como inspiración.')   
+            riot.actionStore.trigger('add_chat', 'Escribe como avanzas hacia tu objetivo utilizando la carta como inspiración.')
             riot.actionStore.trigger('update_characterProgress', self.characterProgress)
-               
+
           } else {
             riot.actionStore.trigger('add_chat', 'No superado')
           }
           self.moveCardsFromTo('hand', 'discard', myCard)
-          self.moveCardsFromTo('main', 'discard', enemyCard)    
-           
+          self.moveCardsFromTo('main', 'discard', enemyCard)
+
           self.resetState()
           break
         case 'attack':
@@ -278,10 +278,10 @@
           self.moveCardsFromTo('main', 'hand', newCard)
           var enemyCard = self.areas.main.topCard()
           self.moveCardsFromTo('main', 'discard', enemyCard)
-          
+
           self.characterConditions++
           riot.actionStore.trigger('update_characterConditions', self.characterConditions)
-          
+
           riot.actionStore.trigger('add_chat', 'Tu enemigo te ataca directamente usando: '+enemyCard.text)
           riot.actionStore.trigger('add_chat', 'Escribe una nueva condicion para tu personaje. Tus condiciones aumentan a: '+self.characterConditions)
 
@@ -289,7 +289,6 @@
           break
         case 'sacrifice':
           var resourceName = self.selectedPjResource
-          console.log("resourceName________"+resourceName)
           var cards = self.areas.main.topCards(2)
           self.moveCardsFromTo('main', 'hand', cards)
           riot.actionStore.trigger('add_chat', 'Sacrificas tu recurso: '+self.resources[resourceName].card.text)
@@ -297,7 +296,7 @@
           self.resources[resourceName].unset()
           self.resetState()
           self.doAction('action_enemy_turn')
-          
+
           break
         case 'reverse':
           var myCard = data['myCard']
