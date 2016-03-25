@@ -68,6 +68,11 @@
                         new Action('action_sacrifice', 'Sacrificar recurso'), new Action('action_reverse', 'Revertir situación')]
 
     this.enemyActions = [new Action('action_enemy_turn', 'Turno del enemigo')]
+    this.respondToEnemy = [new Action('action_pj_respond', 'Responder con mejor carta'),
+                           new Action('action_pj_sacrifice', 'Sacrificar recurso de mejor valor'),
+                           new Action('action_pj_luck', 'Sacar carta del mazo'),
+                         new Action('action_pj_condition', 'Asumir condicion')]
+
     this.cardsToActions = function(cards, actionName) {
       var actions = []
       for (var i=0; i< cards.length; i++) {
