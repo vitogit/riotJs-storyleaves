@@ -30,11 +30,11 @@ describe('Game spec', function() {
       expect(tag.resources).to.exist;
       expect(tag.resources).to.be.an('object');
     })
-    
+
     it('has 9 resources', function() {
       expect(tag.resources).to.exist;
       expect(Object.keys(tag.resources)).to.have.lengthOf(9)
-    })    
+    })
 
     it('adds 2 cards to game area', function() {
       cards = [{number:1, text:'card1'},
@@ -126,10 +126,10 @@ describe('Game spec', function() {
       it('has a chat children tag ', function() {
         expect(tag.tags.chat).to.exist
       })
-      
+
       it('has a info_box children tag ', function() {
         expect(tag.tags.info_box).to.exist
-      })      
+      })
 
       it('has 40 cards in the main place ', function() {
         expect(tag.areas.main.cards).to.have.lengthOf(40)
@@ -182,7 +182,7 @@ describe('Game spec', function() {
       // it('choose a enemy character ', function() {
       //
       // })
-      
+
       describe('select the resources', function() {
         beforeEach(function() {
           tag.doAction('selectResources')
@@ -190,16 +190,16 @@ describe('Game spec', function() {
 
         it('select the characters feature', function() {
           mainDeckLength = tag.areas.main.cards.length
-        
+
           tag.selectCharactersFeatures()
           var characters = ['pj', 'ally', 'enemy']
           characters.forEach(function(character) {
             var characterFeature = character+'_feature'
             expect(tag.resources[characterFeature].card).to.exist
           })
-          expect(tag.areas.main.cards).to.have.lengthOf(mainDeckLength-3)          
+          expect(tag.areas.main.cards).to.have.lengthOf(mainDeckLength-3)
         })
-        
+
         it('select the characters relationships', function() {
           mainDeckLength = tag.areas.main.cards.length
           tag.selectCharactersRelationships()
@@ -208,9 +208,9 @@ describe('Game spec', function() {
           expect(tag.resources.ally_enemy_rel.card.text).to.exist
           expect(tag.areas.main.cards).to.have.lengthOf(mainDeckLength-3)
           //PENDING refactor: is testing multiple behaviours
-        })              
+        })
       })
-      
+
       describe('select the destiny cards', function() {
         beforeEach(function() {
           tag.doAction('selectDestinyCards')
@@ -221,9 +221,9 @@ describe('Game spec', function() {
           tag.selectDestinyCards()
           expect(tag.areas.hand.cards).to.have.lengthOf(5)
           expect(tag.areas.main.cards).to.have.lengthOf(mainDeckLength-5)
-        })    
-      }) 
-      
+        })
+      })
+
       describe('Movements', function() {
 
         it('run move: pursue goal (and succeed)', function() {
@@ -256,7 +256,7 @@ describe('Game spec', function() {
 
         it('run move: wait', function() {
           tag.doMove('wait')
-          expect(tag.tags.chat.messages).to.have.lengthOf(2)
+          expect(tag.tags.chat.messages).to.have.lengthOf(3)
         })
 
         it('run move: sacrifice resource', function() {
@@ -264,7 +264,7 @@ describe('Game spec', function() {
           tag.doMove('sacrifice')
           expect(tag.resources.pj_feature.card.text).to.be.undefined
           expect(tag.areas.hand.cards).to.have.lengthOf(2)
-          expect(tag.tags.chat.messages).to.have.lengthOf(3)
+          expect(tag.tags.chat.messages).to.have.lengthOf(5)
         })
 
         it('run move: reverse condition (and lost)', function() {
@@ -278,8 +278,8 @@ describe('Game spec', function() {
           expect(tag.characterConditions).to.be.eq(1)
           expect(tag.areas.discard.cards).to.have.lengthOf(2)
           expect(tag.tags.chat.messages).to.have.lengthOf(1)
-        })                                  
-      })             
+        })
+      })
     })
   })
 

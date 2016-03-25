@@ -125,12 +125,14 @@
       this.nextActions(this.moveActions)
       self.currentAction = ''
       this.selectedCard = {}
+      this.enemycard = {}
       this.selectedEnemyResource = ''
       riot.actionStore.trigger('update_hand_info', this.areas.hand.cards)
       riot.actionStore.trigger('update_resource_info', this.resources)
     }
 
     this.selectedCard = {}
+    this.enemyCard = {}
     this.selectedEnemyResource = ''
     this.selectedPjResource = ''
     var self = this
@@ -151,6 +153,11 @@
         self.selectedPjResource = resourceName
         self.doMove('sacrifice')
       }
+
+      if (self.currentAction == 'action_pj_sacrifice') {
+        self.selectedPjResource = resourceName
+        self.doMove('pj_sacrifice')
+      }
     })
 
     riot.actionStore.on('card_selected', function(card) {
@@ -158,6 +165,9 @@
       switch(self.currentAction) {
         case 'action_goal':
           self.doMove('goal')
+          break
+        case 'action_pj_respond':
+          self.doMove('pj_respond')
           break
         case 'action_attack':
           if (self.selectedEnemyResource) {
@@ -224,10 +234,9 @@
           this.nextActions([])
           break
         case 'action_wait':
-          riot.actionStore.trigger('add_chat', 'Esperas. Obtienes una nueva carta en tu mano pero tu enemigo ataca directamente')
+          riot.actionStore.trigger('add_chat', 'Esperas. Obtienes una nueva carta en tu mano pero tu enemigo intenta perjudicarte.')
           self.currentAction = 'action_wait'
           self.doMove('wait')
-          this.nextActions(this.moveActions)
           break
         case 'action_sacrifice':
           riot.actionStore.trigger('add_chat', 'Elige el recurso que quieres sacrificar y escribe como se pierde para siempre. Gracias a esto obtendras dos cartas.')
@@ -236,8 +245,31 @@
           break
         case 'action_enemy_turn':
           riot.actionStore.trigger('add_chat', 'Turno enemigo')
-
+          var enemyCard = self.areas.main.topCard()
+          self.enemyCard = enemyCard
+          self.moveCardsFromTo('main', 'discard', enemyCard)
+          riot.actionStore.trigger('add_chat', 'La carta del enemigo es '+enemyCard.fullText())
+          riot.actionStore.trigger('add_chat', 'Escribe como intenta perjudicarte inspirandote en la carta')
+          this.nextActions(self.respondToEnemy)
           break
+        case 'action_pj_respond':
+          riot.actionStore.trigger('add_chat', 'Elige la carta de tu mano que sea mejor a la del enemigo.')
+          self.currentAction = 'action_pj_respond'
+          this.nextActions([])
+          break
+        case 'action_pj_sacrifice':
+          riot.actionStore.trigger('add_chat', 'Elige el recurso que quieres sacrificar.')
+          self.currentAction = 'action_pj_sacrifice'
+          break
+        case 'action_pj_luck':
+          self.currentAction = 'action_pj_luck'
+          self.doMove('pj_luck')
+          break
+        case 'action_pj_condition':
+          self.currentAction = 'action_pj_condition'
+          self.doMove('pj_condition')
+          break
+
         default:
           console.log('default action')
       }
@@ -248,22 +280,24 @@
         case 'goal':
           var myCard = self.selectedCard
           var enemyCard = self.areas.main.topCard()
+          self.enemyCard = enemyCard
           riot.actionStore.trigger('add_chat', 'La carta del enemigo es '+enemyCard.fullText())
           riot.actionStore.trigger('add_chat', 'Tu carta es '+myCard.fullText())
+
+          self.moveCardsFromTo('hand', 'discard', myCard)
+          self.moveCardsFromTo('main', 'discard', enemyCard)
+          self.resetState()
 
           if (myCard.number < enemyCard.number) {
             self.characterProgress++
             riot.actionStore.trigger('add_chat', 'Superado, tu progreso aumenta a '+self.characterProgress)
             riot.actionStore.trigger('add_chat', 'Escribe como avanzas hacia tu objetivo utilizando la carta como inspiración.')
             riot.actionStore.trigger('update_characterProgress', self.characterProgress)
-
           } else {
             riot.actionStore.trigger('add_chat', 'No superado')
+            this.nextActions(self.respondToEnemy)
           }
-          self.moveCardsFromTo('hand', 'discard', myCard)
-          self.moveCardsFromTo('main', 'discard', enemyCard)
 
-          self.resetState()
           break
         case 'attack':
           var myCard = self.selectedCard
@@ -281,16 +315,7 @@
         case 'wait':
           var newCard = self.areas.main.topCard()
           self.moveCardsFromTo('main', 'hand', newCard)
-          var enemyCard = self.areas.main.topCard()
-          self.moveCardsFromTo('main', 'discard', enemyCard)
-
-          self.characterConditions++
-          riot.actionStore.trigger('update_characterConditions', self.characterConditions)
-
-          riot.actionStore.trigger('add_chat', 'Tu enemigo te ataca directamente usando: '+enemyCard.text)
-          riot.actionStore.trigger('add_chat', 'Escribe una nueva condicion para tu personaje. Tus condiciones aumentan a: '+self.characterConditions)
-
-          self.resetState()
+          self.doAction('action_enemy_turn')
           break
         case 'sacrifice':
           var resourceName = self.selectedPjResource
@@ -315,6 +340,53 @@
           }
           self.moveCardsFromTo('hand', 'discard', myCard)
           self.moveCardsFromTo('main', 'discard', enemyCard)
+          break
+        case 'pj_respond':
+          var myCard = self.selectedCard
+          var enemyCard = self.enemyCard
+          self.moveCardsFromTo('hand', 'discard', myCard)
+          self.moveCardsFromTo('main', 'discard', enemyCard)
+          self.resetState()
+
+          if (myCard.number < enemyCard.number) {
+            riot.actionStore.trigger('add_chat', 'Superas el obstaculo, describe como ')
+          } else {
+            riot.actionStore.trigger('add_chat', 'No superado')
+            this.nextActions(self.respondToEnemy)
+          }
+
+          break
+        case 'pj_sacrifice':
+          var resourceName = self.selectedPjResource
+          if (self.resources[resourceName].card.number < self.enemyCard.number ) {
+            riot.actionStore.trigger('add_chat', 'Superas el obstaculo pero pierdes para siempre tu recurso: '+self.resources[resourceName].card.text)
+            self.resources[resourceName].unset()
+            self.resetState()
+          } else {
+            riot.actionStore.trigger('add_chat', 'No lo superas y pierdes para siempre tu recurso: '+self.resources[resourceName].card.text)
+            self.resources[resourceName].unset()
+            this.nextActions(self.respondToEnemy)
+          }
+          break
+        case 'pj_luck':
+          var myCard = self.areas.main.topCard()
+          self.selectedCard = myCard
+          riot.actionStore.trigger('add_chat', 'Sacas la carta: '+myCard.fullText())
+
+          if (myCard.number < self.enemyCard.number ) {
+            riot.actionStore.trigger('add_chat', 'Superas el obstaculo con un poco de suerte')
+          } else {
+            riot.actionStore.trigger('add_chat', 'No lo superas.')
+            self.doMove('pj_condition')
+          }
+          self.resetState()
+
+          break
+        case 'pj_condition':
+          self.characterConditions++
+          riot.actionStore.trigger('update_characterConditions', self.characterConditions)
+          riot.actionStore.trigger('add_chat', 'Agrega una nueva condicion, tus condiciones aumentan a: '+self.characterConditions)
+          self.resetState()
           break
         default:
           console.log('default move')
