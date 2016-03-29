@@ -11,6 +11,7 @@
     this.run_action = function run_action(event) {
       var action = event.item.action
       riot.actionStore.trigger('run_action', action.name, action.data)
+      riot.actionStore.trigger('add_chat_new_line')
     }
 
     this.on('mount', function() {

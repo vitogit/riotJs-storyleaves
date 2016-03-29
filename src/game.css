@@ -41,8 +41,11 @@ chat li {
   font-style: italic;
   color:black;
   font-size: 14px;
-  margin-top:5px;
 }
+
+.new_line {
+  height: 10px
+} 
 
 .text-box {
   height: 50%;

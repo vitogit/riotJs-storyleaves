@@ -206,7 +206,7 @@
         case 'chooseEnemy':
           this.chooseCharacter(data, 'enemy', 'choosePjFeature', 'enemigo')
           riot.actionStore.trigger('update_resource_info', this.resources)
-          riot.actionStore.trigger('add_chat', 'A continuacion se generararn las relaciones y caracteristicas de los personajes')
+          riot.actionStore.trigger('add_chat', 'A continuacion se generan las relaciones y caracteristicas de los personajes')
           this.doAction('generateResources')
           break
         case 'generateResources':

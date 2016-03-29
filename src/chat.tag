@@ -1,7 +1,7 @@
 <chat>
   <div class="text-box" id="text-box">
     <ul>
-      <li class="message { message.user == 'master' ? 'master' : '' }" each={message in messages}>
+      <li class="message {message.user}" each={message in messages} data-id={message.id}>
         {message.text}
       </li>
     </ul>
@@ -43,21 +43,19 @@
       self.update()
       self.scrollDownChat()      
     })
+    
+    riot.actionStore.on('add_chat_new_line', function() {
+      self.addGeneric('', 'new_line')
+      self.update()
+      self.scrollDownChat()      
+    })    
 
     riot.actionStore.on('update_chat', function(messages) {
       self.messages = messages
       self.update()
       self.scrollDownChat()
     })
-
-       
   </script>
 
-  <style>
-    chat { }
-    chat li { }
-    chat li .master {
-      background-color: red
-    }
-  </style>
+
 </chat>
