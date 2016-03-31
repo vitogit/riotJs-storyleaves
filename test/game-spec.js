@@ -64,7 +64,6 @@ describe('Game spec', function() {
       expect(tag.areas.hand.cards).to.have.lengthOf(2)
     })
 
-
     it('moves a specific card from temp area to resource ', function() {
       var cards = [{number:1, text:'card1'},
               {number:2, text:'card2'}
@@ -97,6 +96,17 @@ describe('Game spec', function() {
       tag.currentPhase = tag.phases.length
       tag.nextPhase()
       expect(tag.currentPhase).to.be.eq(0);
+    })
+    
+    it('reorganize the decks (move from discard to main)', function() {
+      var cards = [{number:1, text:'card1'},
+              {number:2, text:'card2'}
+      ]
+      tag.areas.main.cards = []
+      expect(tag.areas.discard.cards).to.have.lengthOf(0);
+      tag.loadArea('discard', cards)
+      tag.reorganization()
+      expect(tag.areas.main.cards).to.have.lengthOf(2);
     })
   })
 
@@ -131,8 +141,8 @@ describe('Game spec', function() {
         expect(tag.tags.info_box).to.exist
       })
 
-      it('has 40 cards in the main place ', function() {
-        expect(tag.areas.main.cards).to.have.lengthOf(40)
+      it('has 38 cards in the main place ', function() {
+        expect(tag.areas.main.cards).to.have.lengthOf(38)
       })
 
       context('execute initGame', function() {

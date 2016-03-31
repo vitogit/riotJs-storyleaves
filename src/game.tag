@@ -131,6 +131,15 @@
       riot.actionStore.trigger('update_resource_info', this.resources)
     }
 
+    this.reorganization = function() {
+      var discard_cards = self.areas.discard.cards
+      if (self.areas.main.cards.length < discard_cards.length) {
+        self.moveCardsFromTo('discard', 'main', discard_cards)
+        self.areas.main.shuffle  
+        riot.actionStore.trigger('add_chat', 'Reorganización.')
+      }
+    }
+
     this.selectedCard = {}
     this.enemyCard = {}
     this.selectedEnemyResource = ''
@@ -175,7 +184,6 @@
           } else {
             riot.actionStore.trigger('add_chat', 'Selecciona el recurso enemigo primero y luego la carta.')
           }
-
           break
         default:
           console.log('default selectedcard')
@@ -276,6 +284,7 @@
     }
 
     this.doMove = function(moveName, data) {
+      this.reorganization()
       switch(moveName) {
         case 'goal':
           var myCard = self.selectedCard

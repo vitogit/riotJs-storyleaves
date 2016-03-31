@@ -36,7 +36,5 @@ var defaultDeck = [
 "Aspecto: Sangriento",
 "Lugar: Hotel",
 "Acontecimiento: Mordisco",
-"Personaje: Agente de la ley",
-"Reorganización",
-"Reorganización"
+"Personaje: Agente de la ley"
 ]
