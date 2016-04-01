@@ -283,16 +283,15 @@ describe('Game spec', function() {
         })
 
         it('run move: reverse condition (and lost)', function() {
-          var myCard = {number:10, text:'Aspecto: my 10 card'}
-          var enemyCard = {number:5, text:'Aspecto:enemy card'}
+          var myCard = new Card(10,'Aspecto:my 10card')
+          var enemyCard = new Card(5,'Aspecto:enemy 5 card')
           tag.loadArea('hand', [myCard])
           tag.areas.main.cards = [enemyCard]
-          var data = {myCard: myCard}
-          tag.doMove('reverse', data)
+          tag.selectedCard = myCard
+          tag.doMove('reverse')
           expect(tag.areas.hand.cards).to.have.lengthOf(0)
-          expect(tag.characterConditions).to.be.eq(1)
           expect(tag.areas.discard.cards).to.have.lengthOf(2)
-          expect(tag.tags.chat.messages).to.have.lengthOf(1)
+          expect(tag.tags.chat.messages).to.have.lengthOf(3)
         })
       })
     })
