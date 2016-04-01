@@ -185,6 +185,8 @@
             riot.actionStore.trigger('add_chat', 'Selecciona el recurso enemigo primero y luego la carta.')
           }
           break
+        case 'action_reverse':
+          self.doMove('reverse')
         default:
           console.log('default selectedcard')
       }
@@ -251,6 +253,16 @@
           self.currentAction = 'action_sacrifice'
           this.nextActions([])
           break
+        case 'action_reverse':
+          if (self.characterConditions > 0) {
+            riot.actionStore.trigger('add_chat', 'Describe como intentas revertir una condición inspirandote en la carta que selecciones.')
+            self.currentAction = 'action_reverse'
+            this.nextActions([])            
+          } else {
+            riot.actionStore.trigger('add_chat', 'No tienes condiciones que revertir.')
+          }
+
+          break          
         case 'action_enemy_turn':
           riot.actionStore.trigger('add_chat', 'Turno enemigo')
           var enemyCard = self.areas.main.topCard()
@@ -335,20 +347,24 @@
           self.resources[resourceName].unset()
           self.resetState()
           self.doAction('action_enemy_turn')
-
           break
         case 'reverse':
-          var myCard = data['myCard']
+          var myCard = self.selectedCard
           var enemyCard = self.areas.main.topCard()
+          riot.actionStore.trigger('add_chat', 'Tu carta seleccionada es: '+myCard.fullText())
+          riot.actionStore.trigger('add_chat', 'La carta de tu enemigo es: '+enemyCard.fullText())
+          
           if (myCard.number < enemyCard.number) {
-            riot.actionStore.trigger('add_chat', 'Logras revertir la situación')
+            riot.actionStore.trigger('add_chat', 'Logras revertir la condición')
+            self.characterConditions--
+            riot.actionStore.trigger('update_characterConditions', self.characterConditions)
           } else {
-            riot.actionStore.trigger('add_chat', 'No logras revertir la situación, y obtienes otra condición')
-            self.characterConditions++
-
+            riot.actionStore.trigger('add_chat', 'No logras revertir la condición')
+            self.nextActions(self.respondToEnemy)
           }
           self.moveCardsFromTo('hand', 'discard', myCard)
           self.moveCardsFromTo('main', 'discard', enemyCard)
+          self.resetState()          
           break
         case 'pj_respond':
           var myCard = self.selectedCard
