@@ -21,6 +21,9 @@
                       'pj_feature':new Resource(), 'ally_feature':new Resource(), 'enemy_feature':new Resource(),
                       'pj_ally_rel':new Resource(), 'pj_enemy_rel':new Resource(), 'ally_enemy_rel':new Resource()
                     }
+
+    this.enemy_resources_count = 3
+
     this.areas.main = new Deck(defaultDeck) //set default deck to the main place
 
     this.loadArea = function(area, cards) {
@@ -119,6 +122,16 @@
     this.selectDestinyCards = function() {
       var cards = self.areas.main.topCards(5)
       self.moveCardsFromTo('main', 'hand', cards)
+    }
+    
+    this.check_end_game_contitions = function() {
+      if (self.characterConditions == 3) {
+        riot.actionStore.trigger('add_chat', 'Tienes 3 condiciones, has sido derrotado. Utiliza las ultimas cartas como inspiración de como termina tu personaje.')
+      } else if (self.characterProgress == 3) {
+        riot.actionStore.trigger('add_chat', 'Tu progreso es 3. Has progresado lo suficiente como para vencer a tu enemigo. Describe como lo haces inspirandote en tus cartas.')
+      } else if (self.enemy_resources_count == 0) {
+        riot.actionStore.trigger('add_chat', 'Destruiste todos los recurso del enemigo. Has vencido. Describe el final.')  
+      } 
     }
 
     this.resetState = function() {
@@ -314,6 +327,7 @@
             riot.actionStore.trigger('add_chat', 'Superado, tu progreso aumenta a '+self.characterProgress)
             riot.actionStore.trigger('add_chat', 'Escribe como avanzas hacia tu objetivo utilizando la carta como inspiración.')
             riot.actionStore.trigger('update_characterProgress', self.characterProgress)
+            self.check_end_game_contitions()            
           } else {
             riot.actionStore.trigger('add_chat', 'No superado')
             this.nextActions(self.respondToEnemy)
@@ -327,6 +341,8 @@
           if (myCard.number < enemyCard.number) {
             riot.actionStore.trigger('add_chat', 'Triunfas. Tu carta: '+myCard.text+' supera a la carta de tu enemigo: '+enemyCard.text)
             self.resources[enemyResource].unset()
+            self.enemy_resources_count--
+            self.check_end_game_contitions()
           } else {
             riot.actionStore.trigger('add_chat', 'Pierdes. Tu carta: '+myCard.text+' pierde ante la carta de tu enemigo: '+enemyCard.text)
           }
@@ -412,6 +428,7 @@
           riot.actionStore.trigger('update_characterConditions', self.characterConditions)
           riot.actionStore.trigger('add_chat', 'Agrega una nueva condicion, tus condiciones aumentan a: '+self.characterConditions)
           self.resetState()
+          self.check_end_game_contitions()
           break
         default:
           console.log('default move')

@@ -35,6 +35,11 @@ describe('Game spec', function() {
       expect(tag.resources).to.exist;
       expect(Object.keys(tag.resources)).to.have.lengthOf(9)
     })
+    
+    it('has enemy_resources_count equal to 3', function() {
+      expect(tag.enemy_resources_count).to.exist;
+      expect(tag.enemy_resources_count).to.be.eq(3)
+    })    
 
     it('adds 2 cards to game area', function() {
       cards = [{number:1, text:'card1'},
