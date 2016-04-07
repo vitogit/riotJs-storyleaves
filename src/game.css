@@ -92,3 +92,7 @@ footer {
   text-align: center;
   color: #767d84;
 }
+
+.small-text {
+  font-size: 14px;
+}

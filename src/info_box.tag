@@ -10,7 +10,7 @@
   </div>
 
   <div class="panel panel-info enemy_resources_box">
-    <div class="panel-heading"><h4 class="panel-title">Recursos Enemigo</h4></div> 
+    <div class="panel-heading"><h4 class="panel-title">Recursos Enemigo <p>{this.resources['enemy'].card.text.replace('Personaje:','')}</p></h4></div> 
     <div class="panel-body">
       <ul class="list-unstyled">
         <li riot-tag="list-group-item" header="Caracteristica enemigo" text={this.resources['enemy_feature'].card.fullText()} data-resource="enemy_feature" onclick={selectEnemyResource}></li>
@@ -21,7 +21,7 @@
   </div>
 
   <div class="panel panel-info my_resources_box">
-    <div class="panel-heading"><h4 class="panel-title">Recursos Protagonista</h4></div> 
+    <div class="panel-heading"><h4 class="panel-title">Recursos Protagonista <p>{this.resources['pj'].card.text.replace('Personaje:','')}</p></h4></div> 
     <div class="panel-body">
       <ul class="list-group">
         <li riot-tag="list-group-item" header="Caracteristica del protagonista" text={this.resources['pj_feature'].card.fullText()} data-resource="pj_feature" onclick={selectPjResource}></li>
@@ -30,7 +30,10 @@
       </ul>
     </div>
   </div>
-  
+
+  <div class="panel panel-info my_resources_box">
+    <div class="panel-heading"><h4 class="panel-title">Aliado <p>{this.resources['ally'].card.text.replace('Personaje:','')}</p></h4></div> 
+  </div>
   <script>
 
     this.resources = opts.resources || []
