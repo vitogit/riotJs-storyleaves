@@ -11,13 +11,26 @@
     	<header class="row clearfix">
         <nav>
           <ul class="nav nav-pills">
-            <li class="active" role="presentation"><a href="#">StoryLeaves Juego</a></li>
-            <li role="presentation"><a href="#">Acerca </a></li>
+            <li class="active" role="presentation"><a onclick="showContent('game')" href="#">StoryLeaves Juego</a></li>
+            <li role="presentation"><a href="#" onclick="showContent('about')">Acerca </a></li>
           </ul>
         </nav>
     	</header>
     	<div class="center row">
-        <game></game>
+        <div class="content game">
+          <game></game>
+        </div>
+        <div class="content about" style="display: none">
+          <h2>Acerca del proyecto</h2>
+          <p>
+          Esta pagina fue creada para poder jugar al juego StoryLeaves online como un proyecto personal, algunas reglas fueron modificadas. <br/>
+          StoryLeaves es un juego creado por Jamie Fristrom, las reglas en ingles se encuentran en <a href="http://www.gamedevblog.com/storyleaves.html">http://www.gamedevblog.com/storyleaves.html</a> <br/>
+          Las reglas en español se pueden encontrar en <a href="http://thredith.blogspot.com/2011/05/storyleaves-o-deshojacuentos-reglas.html">http://thredith.blogspot.com/2011/05/storyleaves-o-deshojacuentos-reglas.html</a> (Nueva redacción por Thredith (8 págs)<br/>
+          Las cartas utilizadas son de <a href="http://labsk.net/wkr/?s=storyleaves"> http://labsk.net/wkr/?s=storyleaves </a> , donde existe mucha información sobre el juego.<br/>
+          </p>
+
+          
+        </div>        
     	</div>
     	<footer class="row">
     	</footer>
@@ -41,6 +54,10 @@
     <script src="./action_store.js"></script>
 
     <script>
+      function showContent(content) {
+        $('.content').hide()
+        $('.'+content).show()
+      }
       riot.mount('game')
     </script>
   </body>
