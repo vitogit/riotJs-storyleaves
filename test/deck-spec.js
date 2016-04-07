@@ -75,7 +75,24 @@ describe('Deck spec', function() {
       deck.unload(cards)
       expect(deck.cards).to.have.lengthOf(0)
     })
+    
+    it('parse a card', function() {
+      cardText = "02 Lugar: 221b Baker Street"
+      deck.parseCards(cardText)
+      expect(deck.cards).to.have.lengthOf(1)
+      expect(deck.cards[0].number).to.be.eq(2)      
+      expect(deck.cards[0].text).to.be.eq('Lugar')
+      expect(deck.cards[0].cardType).to.be.eq('221b Baker Street')
+    })
 
+    it('parse multiple card', function() {
+      cardText = "02 Lugar: 221b Baker Street \n 03 Personaje: Sherlock Holmes"
+      deck.parseCards(cardText)
+      expect(deck.cards).to.have.lengthOf(2)
+      expect(deck.cards[0].number).to.be.eq(2)
+      expect(deck.cards[1].number).to.be.eq(3)
+    })    
+    
     // it('shuffle the deck', function() {
     //   var cards = [{number:1, text:'card1'},
     //           {number:2, text:'card2'},

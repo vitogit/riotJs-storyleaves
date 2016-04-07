@@ -82,3 +82,16 @@ Deck.prototype.shuffle = function(seed){
     }
     return this.cards;
 }
+
+Deck.prototype.parseCards = function(textCards) {
+  var cards = []
+  // regex match: cardNumber cardType: cardDescription
+  var regexp = /(\d\d) (.*): (.*)/g;
+  match = regexp.exec(textCards);
+  while (match != null) {
+      card = new Card(parseInt(match[1]), match[2], match[3])
+      cards.push(card)
+      match = regexp.exec(textCards)
+  } 
+  this.cards = cards
+}
