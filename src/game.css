@@ -83,3 +83,12 @@ ol, ul {
     padding:5px;
     margin-bottom: 0;    
 }
+
+footer {
+  clear: both;
+  padding-top: 45px;
+  font-size: 12px;
+  font-weight: 400;
+  text-align: center;
+  color: #767d84;
+}
