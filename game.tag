@@ -24,7 +24,19 @@
 
     this.enemy_resources_count = 3
 
-    this.areas.main = new Deck(defaultDeck) //set default deck to the main place
+
+    this.findGetParameter = function(parameterName) {
+      var result = null
+      var   tmp = []
+      location.search.substr(1).split("&").forEach(function (item) {
+            tmp = item.split("=");
+            if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+          });
+      return result;
+    }
+    
+    this.deckname = this.findGetParameter('deck') || 'default_deck'
+    this.areas.main = new Deck(decks[this.deckname])
 
     this.loadArea = function(area, cards) {
       this.areas[area].load(cards)
@@ -75,6 +87,7 @@
                            new Action('action_pj_sacrifice', 'Sacrificar recurso de mejor valor'),
                            new Action('action_pj_luck', 'Sacar carta del mazo'),
                          new Action('action_pj_condition', 'Asumir condicion')]
+
 
     this.cardsToActions = function(cards, actionName) {
       var actions = []

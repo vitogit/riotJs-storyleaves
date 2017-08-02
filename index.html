@@ -1,7 +1,5 @@
-<!DOCTYPE html>
 <html>
   <head>
-  <meta charset="utf-8">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
       integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
       <link rel="stylesheet" type="text/css" href="game.css">
@@ -15,6 +13,7 @@
           <ul class="nav nav-pills">
             <li class="active" role="presentation"><a onclick="showContent('game')" href="#">StoryLeaves Juego</a></li>
             <li role="presentation"><a href="#" onclick="showContent('about')">Acerca </a></li>
+            <li role="presentation"><a href="#" onclick="showContent('load_deck')">Cargar cartas </a></li>
           </ul>
         </nav>
     	</header>
@@ -33,7 +32,17 @@
           Fue programado en javascript utilizando el riot.js framework, y Mocha framework para testeo. Funciona en las ultimas versiones de Firefox y Chrome
           El código se encuentra en github https://github.com/vitogit/riotJs-storyleaves
           </p>
-        </div>        
+        </div>
+        <div class="content load_deck" style="display: none">
+          <h2>Cargar Cartas</h2>
+
+          <a href="?deck=default_deck">Dagon</a> <br />
+          <a href="?deck=blade_runner_deck">Blade Runner</a><br />
+          <a href="?deck=antartida_deck">Antartida</a><br />
+          <a href="?deck=omerta_deck">Omerta</a><br />
+          <a href="?deck=abismal_deck">Terror Abismal</a><br />
+          <a href="?deck=sherlock_deck">Sherlock</a><br />
+        </div>
     	</div>
     	<footer class="row">
           2016 - <a href="https://github.com/vitogit">vitogit</a>
