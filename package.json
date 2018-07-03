@@ -23,7 +23,7 @@
   "devDependencies": {
     "browser-sync": "^2.11.1",
     "chai": "^3.5.0",
-    "jquery": "^2.2.1",
+    "jquery": "^3.0.0",
     "karma": "^0.13.21",
     "karma-chai": "^0.1.0",
     "karma-jquery": "^0.1.0",

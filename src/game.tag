@@ -36,7 +36,18 @@
     }
     
     this.deckname = this.findGetParameter('deck') || 'default_deck'
+
     this.areas.main = new Deck(decks[this.deckname])
+    
+    if (this.deckname == 'todos') {
+      var todos = []
+      for (var name in decks) {
+        for (var i in decks[name]) {
+          todos.push(decks[name][i])
+        }
+      }
+      this.areas.main = new Deck(todos)
+    }
 
     this.loadArea = function(area, cards) {
       this.areas[area].load(cards)
