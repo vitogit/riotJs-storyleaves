@@ -39,14 +39,14 @@
 
     this.areas.main = new Deck(decks[this.deckname])
     
-    if (this.deckname == 'todos') {
-      var todos = []
+    if (this.deckname == 'todas') {
+      var todas = []
       for (var name in decks) {
         for (var i in decks[name]) {
-          todos.push(decks[name][i])
+          todas.push(decks[name][i])
         }
       }
-      this.areas.main = new Deck(todos)
+      this.areas.main = new Deck(todas)
     }
 
     this.loadArea = function(area, cards) {
@@ -235,7 +235,7 @@
          var mainDeck = this.areas.main
          mainDeck.shuffle()
          var newDeck = mainDeck.findByType('Personaje')
-         var cards = newDeck.topCards(5)
+         var cards = newDeck.topCards(8) || newDeck
          this.moveCardsFromTo('main', 'temp', cards)
          var actions = this.cardsToActions(cards, 'choosePj')
          riot.actionStore.trigger('add_chat', 'Elige al protagonista')
